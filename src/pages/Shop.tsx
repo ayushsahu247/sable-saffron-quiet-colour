@@ -13,7 +13,7 @@ const Shop = () => {
   const filters: { label: string; value: Filter }[] = [
     { label: "All", value: "all" },
     { label: "Lightweight", value: "lightweight" },
-    { label: "Heavy Winter", value: "winter" },
+    { label: "Winter", value: "winter" },
   ];
 
   return (
