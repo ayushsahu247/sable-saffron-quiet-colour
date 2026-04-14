@@ -13,7 +13,7 @@ const Shop = () => {
   const filters: { label: string; value: Filter }[] = [
     { label: "All", value: "all" },
     { label: "Lightweight", value: "lightweight" },
-    { label: "Heavy Winter", value: "heavy-winter" },
+    { label: "Heavy Winter", value: "winter" },
   ];
 
   return (
@@ -22,7 +22,7 @@ const Shop = () => {
         <FadeIn className="text-center mb-12 space-y-3">
           <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground">The Collection</h1>
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
-            Lightweight for autumn. Warm for winter. Beautiful for both.
+            Lightweight for summer and autumn. Warm for winter. Beautiful for both.
           </p>
         </FadeIn>
 
