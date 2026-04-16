@@ -79,7 +79,7 @@ const ProductDetail = () => {
 
             <p className="text-xs text-muted-foreground italic pt-2">
               Makes a beautiful gift. Arrives beautifully packaged.
-              <br>
+              <br />
               {getProductWashInstructions(product.weight)}
             </p>
           </FadeIn>

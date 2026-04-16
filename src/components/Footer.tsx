@@ -13,7 +13,7 @@ const Footer = () => (
           <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
           <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
           <a href="mailto:hello@sableandsaffron.co.uk" className="hover:text-foreground transition-colors">Contact</a>
-          <span className="hover:text-foreground transition-colors cursor-pointer">Returns</span>
+          <Link to="/returns" className="hover:text-foreground transition-colors">Returns</Link>
         </div>
         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
           <Instagram size={20} />
