@@ -86,5 +86,12 @@ export const getProductById = (id: string) => products.find((p) => p.id === id);
 export const getWeightLabel = (weight: ProductWeight) =>
   weight === "lightweight" ? "Lightweight — Summar & Autumn" : "Winter";
 
-export const getProductDescription = (colourRef: string) =>
-  `Elevate your wardrobe effortlessly with this soft jacquard-style weave with neatly finished edges. Warm and feminine without being bulky — easy to drape and wrap for everyday wear. Designed to add a touch of ${colourRef} and timeless pattern to an otherwise grey UK winter. Pairs beautifully with neutral coats and jumpers. A piece you'll reach for again and again.`;
+export const getProductDescription = (weight: ProductWeight, colourRef: string) =>
+  weight === "winter"
+    ? `Elevate your wardrobe effortlessly with this richly woven jacquard scarf, where the pattern is built into the fabric itself - not printed, not painted, but woven in. Warm and feminine without being bulky, it drapes beautifully and wraps with ease. Neatly finished edges, timeless floral pattern, soft enough to wear against the skin. Designed to add a quiet pop of ${colourRef} to an otherwise grey UK winter. Pairs beautifully with coats and jumpers. The kind of piece you reach for every morning without thinking.`
+    : `Soft as a whisper and light as air - this scarf is the one you didn't know your wardrobe was missing. A fluid, silk-touch weave that drapes effortlessly and moves with you through the day. Worn loose over a blouse, tucked into a knit, or thrown over a shoulder on a cool autumn evening - it works every time. Adds a gentle pop of ${colourRef} without effort, without thought. Equally at home at brunch or at the office. The kind of piece you buy in one colour and come back for in three more.`;
+
+export const getProductWashInstructions = (weight: ProductWeight) =>
+    weight === "winter"
+    ? `Dry clean or hand wash cold. Do not tumble dry. Lay flat to dry. Iron on low heat with a cloth.`
+    : `Hand wash cold with mild detergent. Do not wring. Lay flat to dry. Iron on lowest setting or steam lightly.`

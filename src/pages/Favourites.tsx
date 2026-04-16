@@ -20,7 +20,7 @@ const Favourites = () => {
         {favProducts.length === 0 ? (
           <FadeIn className="text-center py-16 space-y-4">
             <Heart size={32} className="mx-auto text-muted-foreground" />
-            <p className="text-muted-foreground text-sm">Nothing saved yet — but something in the collection will catch your eye.</p>
+            <p className="text-muted-foreground text-sm">Nothing saved yet, but something in the collection will catch your eye.</p>
             <Link to="/shop" className="text-accent text-sm hover:underline underline-offset-4">Browse the collection →</Link>
           </FadeIn>
         ) : (

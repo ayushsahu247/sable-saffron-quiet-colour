@@ -58,7 +58,7 @@ const ProductDetail = () => {
             )}
 
             <p className="text-sm text-muted-foreground leading-relaxed">
-              {getProductDescription(product.colourRef)}
+              {getProductDescription(product.weight, product.colourRef)}
             </p>
 
             <div className="space-y-3 pt-2">
@@ -78,7 +78,9 @@ const ProductDetail = () => {
             </div>
 
             <p className="text-xs text-muted-foreground italic pt-2">
-              Makes a beautiful gift — arrives beautifully packaged.
+              Makes a beautiful gift. Arrives beautifully packaged.
+              <br>
+              {getProductWashInstructions(product.weight)}
             </p>
           </FadeIn>
         </div>
