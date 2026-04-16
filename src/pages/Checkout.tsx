@@ -1,10 +1,29 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import FadeIn from "@/components/FadeIn";
 
 const Checkout = () => {
-  const { items, subtotal } = useCart();
+  const { items, subtotal, clearCart } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  if (!user) {
+    return (
+      <main className="py-20 text-center container mx-auto px-6 space-y-4">
+        <h1 className="font-heading text-3xl text-foreground">Sign in to checkout</h1>
+        <p className="text-muted-foreground text-sm">Create an account or sign in to place your order.</p>
+        <Link to="/auth" className="inline-block bg-accent text-accent-foreground px-8 py-3 rounded-lg text-sm font-medium">
+          Sign in
+        </Link>
+      </main>
+    );
+  }
 
   if (items.length === 0 && !submitted) {
     return (
@@ -23,6 +42,37 @@ const Checkout = () => {
     );
   }
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      user_id: user.id,
+      full_name: String(fd.get("full_name") || ""),
+      email: String(fd.get("email") || ""),
+      address_line1: String(fd.get("address_line1") || ""),
+      address_line2: String(fd.get("address_line2") || "") || null,
+      city: String(fd.get("city") || ""),
+      postcode: String(fd.get("postcode") || ""),
+      items: items.map((i) => ({
+        id: i.product.id,
+        name: i.product.name,
+        price: i.product.price,
+        quantity: i.quantity,
+      })),
+      subtotal,
+    };
+
+    const { error } = await supabase.from("orders").insert(payload);
+    setSubmitting(false);
+    if (error) {
+      toast.error("Couldn't place your order. Please try again.");
+      return;
+    }
+    await clearCart();
+    setSubmitted(true);
+  };
+
   return (
     <main className="py-12 md:py-20">
       <div className="container mx-auto px-6">
@@ -33,17 +83,14 @@ const Checkout = () => {
         <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
           <FadeIn className="space-y-6">
             <h2 className="font-heading text-xl text-foreground">Delivery Details</h2>
-            <form
-              onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
-              className="space-y-4"
-            >
-              <input type="text" placeholder="Full name" required maxLength={100} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-              <input type="email" placeholder="Email address" required maxLength={255} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-              <input type="text" placeholder="Address line 1" required maxLength={200} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-              <input type="text" placeholder="Address line 2" maxLength={200} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input name="full_name" type="text" placeholder="Full name" required maxLength={100} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+              <input name="email" type="email" defaultValue={user.email ?? ""} placeholder="Email address" required maxLength={255} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+              <input name="address_line1" type="text" placeholder="Address line 1" required maxLength={200} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+              <input name="address_line2" type="text" placeholder="Address line 2" maxLength={200} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
               <div className="grid grid-cols-2 gap-4">
-                <input type="text" placeholder="City" required maxLength={100} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-                <input type="text" placeholder="Postcode" required maxLength={10} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+                <input name="city" type="text" placeholder="City" required maxLength={100} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+                <input name="postcode" type="text" placeholder="Postcode" required maxLength={10} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
 
               <div className="pt-4 border-t border-border">
@@ -53,8 +100,8 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <button type="submit" className="w-full bg-accent text-accent-foreground py-3.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity mt-4">
-                Place Order
+              <button type="submit" disabled={submitting} className="w-full bg-accent text-accent-foreground py-3.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 mt-4">
+                {submitting ? "Placing order…" : "Place Order"}
               </button>
             </form>
           </FadeIn>
