@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { Heart, ArrowLeft } from "lucide-react";
-import { getProductById, getWeightLabel, getProductDescription } from "@/data/products";
+import { getProductById, getWeightLabel, getProductDescription, getProductWashInstructions } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useFavourites } from "@/context/FavouritesContext";
 import FadeIn from "@/components/FadeIn";
