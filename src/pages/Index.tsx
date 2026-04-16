@@ -5,31 +5,56 @@ import giftImage from "@/assets/gift-section.jpg";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 interface Review {
+  id: string;
   name: string;
   text: string;
 }
 
 const Index = () => {
-  const [reviews, setReviews] = useState<Review[]>(() => {
-    const saved = localStorage.getItem("sable-reviews");
-    return saved ? JSON.parse(saved) : [
-      { name: "Sophie M.", text: "The softest scarf I've ever owned. The colour goes with absolutely everything in my wardrobe." },
-      { name: "Claire W.", text: "Bought as a gift for my mum. She hasn't taken it off since. Beautifully packaged too." },
-      { name: "Priya K.", text: "Finally, scarves with real colour that still feel intentional. I've bought two, will be ordering more." },
-    ];
-  });
+  const { user } = useAuth();
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewName, setReviewName] = useState("");
   const [reviewText, setReviewText] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const submitReview = (e: React.FormEvent) => {
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("reviews")
+        .select("id,name,text")
+        .eq("approved", true)
+        .order("created_at", { ascending: false })
+        .limit(9);
+      if (data) setReviews(data);
+    })();
+  }, []);
+
+  const submitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!reviewName.trim() || !reviewText.trim()) return;
-    const updated = [...reviews, { name: reviewName.trim(), text: reviewText.trim() }];
-    setReviews(updated);
-    localStorage.setItem("sable-reviews", JSON.stringify(updated));
+    if (!user) {
+      toast.error("Please sign in to leave a review.");
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase.from("reviews").insert({
+      user_id: user.id,
+      name: reviewName.trim(),
+      text: reviewText.trim(),
+      approved: false,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Couldn't submit your review.");
+      return;
+    }
+    toast.success("Thank you! Your review will appear once approved.");
     setReviewName("");
     setReviewText("");
   };
@@ -149,7 +174,7 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             {reviews.map((review, i) => (
-              <FadeIn key={i} delay={i * 0.1} className="bg-popover rounded-xl p-6 shadow-sm border border-border">
+              <FadeIn key={review.id} delay={i * 0.1} className="bg-popover rounded-xl p-6 shadow-sm border border-border">
                 <p className="text-sm text-muted-foreground leading-relaxed italic mb-4">"{review.text}"</p>
                 <p className="text-sm font-medium text-foreground">— {review.name}</p>
               </FadeIn>
@@ -175,9 +200,15 @@ const Index = () => {
                 rows={3}
                 className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               />
-              <button type="submit" className="w-full bg-accent text-accent-foreground py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
-                Submit Review
+              <button type="submit" disabled={submitting} className="w-full bg-accent text-accent-foreground py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50">
+                {submitting ? "Submitting…" : "Submit Review"}
               </button>
+              {!user && (
+                <p className="text-xs text-center text-muted-foreground">
+                  <Link to="/auth" className="text-accent hover:underline">Sign in</Link> to leave a review.
+                </p>
+              )}
+              <p className="text-xs text-center text-muted-foreground">Reviews are visible after approval.</p>
             </form>
           </FadeIn>
         </div>
