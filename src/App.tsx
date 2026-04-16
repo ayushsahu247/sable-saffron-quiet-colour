@@ -3,8 +3,10 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { FavouritesProvider } from "@/context/FavouritesContext";
+import Auth from "./pages/Auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartSlideout from "@/components/CartSlideout";
@@ -22,27 +24,30 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CartProvider>
-        <FavouritesProvider>
-          <Toaster />
-          <Sonner />
-          <HashRouter>
-            <Navbar />
-            <CartSlideout />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/favourites" element={<Favourites />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/returns" element={<Returns />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <Footer />
-          </HashRouter>
-        </FavouritesProvider>
-      </CartProvider>
+      <HashRouter>
+        <AuthProvider>
+          <CartProvider>
+            <FavouritesProvider>
+              <Toaster />
+              <Sonner />
+              <Navbar />
+              <CartSlideout />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/favourites" element={<Favourites />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/returns" element={<Returns />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <Footer />
+            </FavouritesProvider>
+          </CartProvider>
+        </AuthProvider>
+      </HashRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
