@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, ArrowLeft } from "lucide-react";
 import { getProductById, getWeightLabel, getProductDescription, getProductWashInstructions, getProductImages } from "@/data/products";
@@ -12,6 +12,18 @@ const ProductDetail = () => {
   const product = getProductById(id || "");
   const { addToCart } = useCart();
   const { toggleFavourite, isFavourite } = useFavourites();
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
   if (!product) {
     return (
@@ -24,13 +36,6 @@ const ProductDetail = () => {
 
   const fav = isFavourite(product.id);
   const images = getProductImages(product);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  if (api) {
-    api.off("select", () => {});
-    api.on("select", () => setCurrent(api.selectedScrollSnap()));
-  }
 
   return (
     <main className="py-8 md:py-16">
