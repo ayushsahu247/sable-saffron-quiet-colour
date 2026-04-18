@@ -15,9 +15,13 @@ export interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  images?: string[];
   inHighDemand: boolean;
   colourRef: string;
 }
+
+export const getProductImages = (product: Product): string[] =>
+  product.images && product.images.length > 0 ? product.images : [product.image];
 
 export const products: Product[] = [
   {
@@ -27,6 +31,7 @@ export const products: Product[] = [
     price: 12.99,
     originalPrice: 16.99,
     image: scarf1,
+    images: [scarf1, scarf2, scarf3],
     inHighDemand: true,
     colourRef: "soft terracotta",
   },
@@ -37,6 +42,7 @@ export const products: Product[] = [
     price: 12.99,
     originalPrice: 16.99,
     image: scarf2,
+    images: [scarf2, scarf3, scarf1],
     inHighDemand: false,
     colourRef: "dusty sage and blush",
   },
@@ -46,6 +52,7 @@ export const products: Product[] = [
     weight: "lightweight",
     price: 12.99,
     image: scarf3,
+    images: [scarf3, scarf1, scarf2],
     inHighDemand: false,
     colourRef: "soft lavender",
   },
@@ -56,6 +63,7 @@ export const products: Product[] = [
     price: 19.99,
     originalPrice: 25.99,
     image: scarf4,
+    images: [scarf4, scarf5, scarf6],
     inHighDemand: true,
     colourRef: "rich burgundy and camel",
   },
@@ -66,19 +74,21 @@ export const products: Product[] = [
     price: 19.99,
     originalPrice: 25.99,
     image: scarf6,
+    images: [scarf6, scarf4, scarf7],
     inHighDemand: true,
     colourRef: "warm mustard",
   },
-    {
-      id: "dusty-pink-floral",
-      name: "Dusty Pink Floral",
-      weight: "winter",
-      price: 19.99,
-      originalPrice: 25.99,
-      image: scarf7,
-      inHighDemand: true,
-      colourRef: "dusty pink",
-    },
+  {
+    id: "dusty-pink-floral",
+    name: "Dusty Pink Floral",
+    weight: "winter",
+    price: 19.99,
+    originalPrice: 25.99,
+    image: scarf7,
+    images: [scarf7, scarf6, scarf4],
+    inHighDemand: true,
+    colourRef: "dusty pink",
+  },
 ];
 
 export const getProductById = (id: string) => products.find((p) => p.id === id);
