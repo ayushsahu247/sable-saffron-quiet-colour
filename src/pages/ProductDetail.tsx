@@ -1,15 +1,29 @@
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, ArrowLeft } from "lucide-react";
-import { getProductById, getWeightLabel, getProductDescription, getProductWashInstructions } from "@/data/products";
+import { getProductById, getWeightLabel, getProductDescription, getProductWashInstructions, getProductImages } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useFavourites } from "@/context/FavouritesContext";
 import FadeIn from "@/components/FadeIn";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const product = getProductById(id || "");
   const { addToCart } = useCart();
   const { toggleFavourite, isFavourite } = useFavourites();
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
   if (!product) {
     return (
@@ -21,6 +35,7 @@ const ProductDetail = () => {
   }
 
   const fav = isFavourite(product.id);
+  const images = getProductImages(product);
 
   return (
     <main className="py-8 md:py-16">
@@ -31,8 +46,42 @@ const ProductDetail = () => {
 
         <div className="grid md:grid-cols-2 gap-8 md:gap-16">
           <FadeIn>
-            <div className="overflow-hidden rounded-xl bg-muted aspect-[4/5]">
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+            <div className="space-y-3">
+              <Carousel setApi={setApi} className="w-full">
+                <CarouselContent>
+                  {images.map((src, i) => (
+                    <CarouselItem key={i}>
+                      <div className="overflow-hidden rounded-xl bg-muted aspect-[4/5]">
+                        <img
+                          src={src}
+                          alt={`${product.name} - view ${i + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                {images.length > 1 && (
+                  <>
+                    <CarouselPrevious className="left-3" />
+                    <CarouselNext className="right-3" />
+                  </>
+                )}
+              </Carousel>
+              {images.length > 1 && (
+                <div className="flex gap-2 justify-center">
+                  {images.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => api?.scrollTo(i)}
+                      aria-label={`Go to image ${i + 1}`}
+                      className={`h-1.5 rounded-full transition-all ${
+                        current === i ? "w-6 bg-foreground" : "w-1.5 bg-muted-foreground/40"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </FadeIn>
 
