@@ -1,10 +1,20 @@
 import scarf1 from "@/assets/products/scarf-1.jpg";
 import scarf2 from "@/assets/products/scarf-2.jpg";
+import scarf21 from "@/assets/products/scarf-2-1.jpg";
 import scarf3 from "@/assets/products/scarf-3.jpg";
+import scarf31 from "@/assets/products/scarf-3-1.jpg";
+import scarf32 from "@/assets/products/scarf-3-2.jpg";
+import scarf33 from "@/assets/products/scarf-3-3.jpg";
 import scarf4 from "@/assets/products/scarf-4.jpg";
 import scarf5 from "@/assets/products/scarf-5.jpg";
 import scarf6 from "@/assets/products/scarf-6.jpg";
 import scarf7 from "@/assets/products/scarf-7.jpg";
+import scarf8 from "@/assets/products/scarf-8.jpg";
+import scarf9 from "@/assets/products/scarf-9.jpg";
+import scarf91 from "@/assets/products/scarf-9-1.jpg";
+import scarf92 from "@/assets/products/scarf-9-2.jpg";
+import scarf93 from "@/assets/products/scarf-9-3.jpg";
+import scarf10 from "@/assets/products/scarf-10.jpg";
 
 export type ProductWeight = "lightweight" | "winter";
 
@@ -31,7 +41,7 @@ export const products: Product[] = [
     price: 12.99,
     originalPrice: 16.99,
     image: scarf1,
-    images: [scarf1, scarf2, scarf3],
+    images: [scarf1],
     inHighDemand: true,
     colourRef: "soft terracotta",
   },
@@ -42,7 +52,7 @@ export const products: Product[] = [
     price: 12.99,
     originalPrice: 16.99,
     image: scarf2,
-    images: [scarf2, scarf3, scarf1],
+    images: [scarf2, scarf21],
     inHighDemand: false,
     colourRef: "dusty sage and blush",
   },
@@ -52,7 +62,7 @@ export const products: Product[] = [
     weight: "lightweight",
     price: 12.99,
     image: scarf3,
-    images: [scarf3, scarf1, scarf2],
+    images: [scarf3, scarf31, scarf32, scarf33],
     inHighDemand: false,
     colourRef: "soft lavender",
   },
@@ -63,9 +73,20 @@ export const products: Product[] = [
     price: 19.99,
     originalPrice: 25.99,
     image: scarf4,
-    images: [scarf4, scarf5, scarf6],
+    images: [scarf4],
     inHighDemand: true,
     colourRef: "rich burgundy and camel",
+  },
+  {
+    id: "royal-blue-pink",
+    name: "Royal Blue and Dusty Pink",
+    weight: "winter",
+    price: 19.99,
+    originalPrice: 25.99,
+    image: scarf5,
+    images: [scarf5],
+    inHighDemand: false,
+    colourRef: "royal blue and dusty pink",
   },
   {
     id: "golden-floral",
@@ -74,7 +95,7 @@ export const products: Product[] = [
     price: 19.99,
     originalPrice: 25.99,
     image: scarf6,
-    images: [scarf6, scarf4, scarf7],
+    images: [scarf6],
     inHighDemand: true,
     colourRef: "warm mustard",
   },
@@ -85,9 +106,42 @@ export const products: Product[] = [
     price: 19.99,
     originalPrice: 25.99,
     image: scarf7,
-    images: [scarf7, scarf6, scarf4],
-    inHighDemand: true,
+    images: [scarf7],
+    inHighDemand: false,
     colourRef: "dusty pink",
+  },
+  {
+    id: "apricot-blossom-fringe",
+    name: "Apricot Blossom Fringe Scarf",
+    weight: "winter",
+    price: 25.99,
+//     originalPrice: 25.99,
+    image: scarf8,
+    images: [scarf8],
+    inHighDemand: false,
+    colourRef: "apricot blossom",
+  },
+  {
+    id: "muted-saffron-heritage",
+    name: "Muted Saffron Heritage Wrap",
+    weight: "winter",
+    price: 19.99,
+    originalPrice: 25.99,
+    image: scarf9,
+    images: [scarf9, scarf91, scarf92, scarf93],
+    inHighDemand: false,
+    colourRef: "muted saffron heritage",
+  },
+  {
+    id: "olive-blossom-fringe",
+    name: "Olive Blossom Fringe Scarf",
+    weight: "lightweight",
+    price: 12.99,
+    originalPrice: 16.99,
+    image: scarf10,
+    images: [scarf10],
+    inHighDemand: false,
+    colourRef: "olive blossom",
   },
 ];
 
