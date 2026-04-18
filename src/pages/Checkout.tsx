@@ -63,12 +63,43 @@ const Checkout = () => {
       subtotal,
     };
 
-    const { error } = await supabase.from("orders").insert(payload);
-    setSubmitting(false);
+    const orderId = crypto.randomUUID();
+    const { error } = await supabase.from("orders").insert({ ...payload, id: orderId });
     if (error) {
+      setSubmitting(false);
       toast.error("Couldn't place your order. Please try again.");
       return;
     }
+
+    // Fire-and-forget order confirmation email — don't block the user if email is slow.
+    // Customize the template at: supabase/functions/_shared/transactional-email-templates/order-confirmation.tsx
+    supabase.functions
+      .invoke("send-transactional-email", {
+        body: {
+          templateName: "order-confirmation",
+          recipientEmail: payload.email,
+          idempotencyKey: `order-confirm-${orderId}`,
+          templateData: {
+            customerName: payload.full_name,
+            orderId,
+            items: payload.items.map((i) => ({
+              name: i.name,
+              quantity: i.quantity,
+              price: i.price,
+            })),
+            subtotal: payload.subtotal,
+            shippingAddress: {
+              line1: payload.address_line1,
+              line2: payload.address_line2 ?? undefined,
+              city: payload.city,
+              postcode: payload.postcode,
+            },
+          },
+        },
+      })
+      .catch((err) => console.error("Order confirmation email failed", err));
+
+    setSubmitting(false);
     await clearCart();
     setSubmitted(true);
   };
