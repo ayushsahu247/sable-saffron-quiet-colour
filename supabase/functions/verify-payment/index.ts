@@ -75,7 +75,14 @@ Deno.serve(async (req) => {
         await admin.from('cart_items').delete().eq('user_id', order.user_id)
       }
 
-      // Send order confirmation email server-side (fire-and-forget within this function)
+      const shippingAddress = {
+        line1: order.address_line1,
+        line2: order.address_line2 ?? undefined,
+        city: order.city,
+        postcode: order.postcode,
+      }
+
+      // 1) Customer order confirmation
       try {
         await admin.functions.invoke('send-transactional-email', {
           body: {
@@ -87,17 +94,45 @@ Deno.serve(async (req) => {
               orderId,
               items: order.items,
               subtotal: Number(order.subtotal),
-              shippingAddress: {
-                line1: order.address_line1,
-                line2: order.address_line2 ?? undefined,
-                city: order.city,
-                postcode: order.postcode,
-              },
+              shippingAddress,
             },
           },
         })
       } catch (e) {
         console.error('Failed to send order confirmation', e)
+      }
+
+      // 2) Auto-create a shipment record (status: to_dispatch) — idempotent via UNIQUE(order_id)
+      try {
+        await admin
+          .from('shipments')
+          .insert({ order_id: orderId, status: 'to_dispatch' })
+      } catch (e) {
+        console.error('Failed to create shipment record', e)
+      }
+
+      // 3) Notify the shop owner of the new order
+      // CUSTOMIZE: change OWNER_NOTIFICATION_EMAIL to the address that should receive new-order alerts.
+      const OWNER_NOTIFICATION_EMAIL = 'orders@sableandsaffron.xyz'
+      try {
+        await admin.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'new-order-owner',
+            recipientEmail: OWNER_NOTIFICATION_EMAIL,
+            idempotencyKey: `owner-notify-${orderId}`,
+            templateData: {
+              customerName: order.full_name,
+              customerEmail: order.email,
+              customerPhone: order.phone ?? undefined,
+              orderId,
+              items: order.items,
+              subtotal: Number(order.subtotal),
+              shippingAddress,
+            },
+          },
+        })
+      } catch (e) {
+        console.error('Failed to send owner notification', e)
       }
     }
 
