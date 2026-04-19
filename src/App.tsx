@@ -15,6 +15,7 @@ import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import Favourites from "./pages/Favourites";
 import Checkout from "./pages/Checkout";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 import About from "./pages/About";
 import Returns from "./pages/Returns";
 import Unsubscribe from "./pages/Unsubscribe";
@@ -39,6 +40,7 @@ const App = () => (
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/favourites" element={<Favourites />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/checkout/success" element={<CheckoutSuccess />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/returns" element={<Returns />} />
                 <Route path="/unsubscribe" element={<Unsubscribe />} />

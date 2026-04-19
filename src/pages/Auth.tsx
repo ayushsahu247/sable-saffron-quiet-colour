@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
@@ -18,17 +18,38 @@ const Auth = () => {
     if (session) navigate("/");
   }, [session, navigate]);
 
+  // Live password requirement checks (signup only)
+  const checks = useMemo(
+    () => ({
+      length: password.length >= 8,
+      letter: /[A-Za-z]/.test(password),
+      number: /\d/.test(password),
+    }),
+    [password],
+  );
+  const passwordValid = checks.length && checks.letter && checks.number;
+
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (mode === "signup" && !passwordValid) {
+      toast.error("Please meet all password requirements.");
+      return;
+    }
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: `${window.location.origin}/` },
         });
         if (error) throw error;
+        // Trigger welcome email server-side (fire-and-forget)
+        if (data.user?.id) {
+          supabase.functions
+            .invoke("send-welcome-email", { body: { user_id: data.user.id } })
+            .catch((err) => console.error("Welcome email failed", err));
+        }
         toast.success("Welcome! You're signed in.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -52,6 +73,15 @@ const Auth = () => {
       setBusy(false);
     }
   };
+
+  const Requirement = ({ ok, label }: { ok: boolean; label: string }) => (
+    <li className={`flex items-center gap-2 text-xs ${ok ? "text-[hsl(var(--accent))]" : "text-muted-foreground"}`}>
+      <span aria-hidden className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold ${ok ? "bg-[hsl(var(--accent))] text-accent-foreground" : "bg-muted text-muted-foreground"}`}>
+        {ok ? "✓" : "•"}
+      </span>
+      <span>{label}</span>
+    </li>
+  );
 
   return (
     <main className="py-16 md:py-24">
@@ -98,18 +128,27 @@ const Auth = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             />
-            <input
-              type="password"
-              required
-              minLength={6}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
+            <div className="space-y-2">
+              <input
+                type="password"
+                required
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                aria-describedby={mode === "signup" ? "password-requirements" : undefined}
+              />
+              {mode === "signup" && (
+                <ul id="password-requirements" className="space-y-1 pl-1" aria-live="polite">
+                  <Requirement ok={checks.length} label="At least 8 characters" />
+                  <Requirement ok={checks.letter} label="At least one letter" />
+                  <Requirement ok={checks.number} label="At least one number" />
+                </ul>
+              )}
+            </div>
             <button
               type="submit"
-              disabled={busy}
+              disabled={busy || (mode === "signup" && !passwordValid)}
               className="w-full bg-accent text-accent-foreground py-3 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
             >
               {mode === "login" ? "Sign in" : "Create account"}
