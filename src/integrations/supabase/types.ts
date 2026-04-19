@@ -159,8 +159,12 @@ export type Database = {
           full_name: string
           id: string
           items: Json
+          paid_at: string | null
+          payment_status: string
+          phone: string | null
           postcode: string
           status: string
+          stripe_session_id: string | null
           subtotal: number
           user_id: string | null
         }
@@ -173,8 +177,12 @@ export type Database = {
           full_name: string
           id?: string
           items: Json
+          paid_at?: string | null
+          payment_status?: string
+          phone?: string | null
           postcode: string
           status?: string
+          stripe_session_id?: string | null
           subtotal: number
           user_id?: string | null
         }
@@ -187,8 +195,12 @@ export type Database = {
           full_name?: string
           id?: string
           items?: Json
+          paid_at?: string | null
+          payment_status?: string
+          phone?: string | null
           postcode?: string
           status?: string
+          stripe_session_id?: string | null
           subtotal?: number
           user_id?: string | null
         }
