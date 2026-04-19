@@ -1,17 +1,27 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import FadeIn from "@/components/FadeIn";
 
+// UK phone: accepts +44 7xxx xxxxxx, 07xxxxxxxxx, with optional spaces/dashes/parens.
+// Strips formatting then matches UK formats. Accepts mobile and landline.
+const isValidUKPhone = (raw: string) => {
+  const cleaned = raw.replace(/[\s\-()]/g, "");
+  // +44 followed by 9-10 digits, or 0 followed by 9-10 digits, or 44 followed by 9-10 digits
+  return /^(?:\+?44|0)[1-9]\d{8,9}$/.test(cleaned);
+};
+
 const Checkout = () => {
-  const { items, subtotal, clearCart } = useCart();
+  const { items, subtotal } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
+  const [params] = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const cancelled = params.get("cancelled") === "1";
 
   if (!user) {
     return (
@@ -25,7 +35,7 @@ const Checkout = () => {
     );
   }
 
-  if (items.length === 0 && !submitted) {
+  if (items.length === 0) {
     return (
       <main className="py-20 text-center container mx-auto px-6">
         <p className="text-muted-foreground">Your cart is empty.</p>
@@ -33,75 +43,49 @@ const Checkout = () => {
     );
   }
 
-  if (submitted) {
-    return (
-      <main className="py-20 text-center container mx-auto px-6 space-y-4">
-        <h1 className="font-heading text-3xl text-foreground">Thank you!</h1>
-        <p className="text-muted-foreground text-sm">Your order has been placed. We'll be in touch soon.</p>
-      </main>
-    );
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPhoneError(null);
     setSubmitting(true);
+
     const fd = new FormData(e.currentTarget);
-    const payload = {
-      user_id: user.id,
+    const phone = String(fd.get("phone") || "").trim();
+    if (!isValidUKPhone(phone)) {
+      setPhoneError("Please enter a valid UK phone number (e.g. 07123 456789 or +44 7123 456789).");
+      setSubmitting(false);
+      return;
+    }
+
+    const shipping = {
       full_name: String(fd.get("full_name") || ""),
       email: String(fd.get("email") || ""),
+      phone,
       address_line1: String(fd.get("address_line1") || ""),
       address_line2: String(fd.get("address_line2") || "") || null,
       city: String(fd.get("city") || ""),
       postcode: String(fd.get("postcode") || ""),
-      items: items.map((i) => ({
-        id: i.product.id,
-        name: i.product.name,
-        price: i.product.price,
-        quantity: i.quantity,
-      })),
-      subtotal,
     };
 
-    const orderId = crypto.randomUUID();
-    const { error } = await supabase.from("orders").insert({ ...payload, id: orderId });
-    if (error) {
+    const cartItems = items.map((i) => ({
+      id: i.product.id,
+      name: i.product.name,
+      price: i.product.price,
+      quantity: i.quantity,
+    }));
+
+    const { data, error } = await supabase.functions.invoke("create-checkout", {
+      body: { items: cartItems, shipping },
+    });
+
+    if (error || !data?.url) {
+      console.error(error);
+      toast.error("Couldn't start payment. Please try again.");
       setSubmitting(false);
-      toast.error("Couldn't place your order. Please try again.");
       return;
     }
 
-    // Fire-and-forget order confirmation email — don't block the user if email is slow.
-    // Customize the template at: supabase/functions/_shared/transactional-email-templates/order-confirmation.tsx
-    supabase.functions
-      .invoke("send-transactional-email", {
-        body: {
-          templateName: "order-confirmation",
-          recipientEmail: payload.email,
-          idempotencyKey: `order-confirm-${orderId}`,
-          templateData: {
-            customerName: payload.full_name,
-            orderId,
-            items: payload.items.map((i) => ({
-              name: i.name,
-              quantity: i.quantity,
-              price: i.price,
-            })),
-            subtotal: payload.subtotal,
-            shippingAddress: {
-              line1: payload.address_line1,
-              line2: payload.address_line2 ?? undefined,
-              city: payload.city,
-              postcode: payload.postcode,
-            },
-          },
-        },
-      })
-      .catch((err) => console.error("Order confirmation email failed", err));
-
-    setSubmitting(false);
-    await clearCart();
-    setSubmitted(true);
+    // Redirect to Stripe-hosted payment page
+    window.location.href = data.url;
   };
 
   return (
@@ -109,6 +93,11 @@ const Checkout = () => {
       <div className="container mx-auto px-6">
         <FadeIn className="text-center mb-12">
           <h1 className="font-heading text-4xl font-light text-foreground">Checkout</h1>
+          {cancelled && (
+            <p className="mt-3 text-sm text-[hsl(var(--accent))]">
+              Payment cancelled — your cart is still here. You can try again any time.
+            </p>
+          )}
         </FadeIn>
 
         <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
@@ -117,6 +106,20 @@ const Checkout = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <input name="full_name" type="text" placeholder="Full name" required maxLength={100} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
               <input name="email" type="email" defaultValue={user.email ?? ""} placeholder="Email address" required maxLength={255} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+              <div>
+                <input
+                  name="phone"
+                  type="tel"
+                  placeholder="UK phone number (e.g. 07123 456789)"
+                  required
+                  maxLength={20}
+                  autoComplete="tel"
+                  className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+                {phoneError && (
+                  <p className="mt-1.5 text-xs text-destructive">{phoneError}</p>
+                )}
+              </div>
               <input name="address_line1" type="text" placeholder="Address line 1" required maxLength={200} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
               <input name="address_line2" type="text" placeholder="Address line 2" maxLength={200} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
               <div className="grid grid-cols-2 gap-4">
@@ -124,16 +127,12 @@ const Checkout = () => {
                 <input name="postcode" type="text" placeholder="Postcode" required maxLength={10} className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
 
-              <div className="pt-4 border-t border-border">
-                <h2 className="font-heading text-xl text-foreground mb-4">Payment</h2>
-                <div className="bg-muted rounded-lg p-4 text-sm text-muted-foreground text-center">
-                  Stripe payment integration coming soon. Orders are currently processed manually.
-                </div>
-              </div>
-
               <button type="submit" disabled={submitting} className="w-full bg-accent text-accent-foreground py-3.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 mt-4">
-                {submitting ? "Placing order…" : "Place Order"}
+                {submitting ? "Redirecting to secure payment…" : `Pay £${subtotal.toFixed(2)}`}
               </button>
+              <p className="text-xs text-muted-foreground text-center">
+                You'll be redirected to a secure payment page to complete your order.
+              </p>
             </form>
           </FadeIn>
 
