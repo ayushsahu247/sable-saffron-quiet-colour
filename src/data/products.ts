@@ -38,7 +38,7 @@ export const products: Product[] = [
     id: "soft-terracotta-bloom",
     name: "Soft Terracotta Bloom",
     weight: "lightweight",
-    price: 12.99,
+    price: 0.19,
     originalPrice: 16.99,
     image: scarf1,
     images: [scarf1],
