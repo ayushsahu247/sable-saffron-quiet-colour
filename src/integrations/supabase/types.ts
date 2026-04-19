@@ -236,6 +236,45 @@ export type Database = {
         }
         Relationships: []
       }
+      shipments: {
+        Row: {
+          carrier: string | null
+          created_at: string
+          delivered_at: string | null
+          dispatched_at: string | null
+          id: string
+          notes: string | null
+          order_id: string
+          status: string
+          tracking_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          carrier?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          dispatched_at?: string | null
+          id?: string
+          notes?: string | null
+          order_id: string
+          status?: string
+          tracking_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          carrier?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          dispatched_at?: string | null
+          id?: string
+          notes?: string | null
+          order_id?: string
+          status?: string
+          tracking_number?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
