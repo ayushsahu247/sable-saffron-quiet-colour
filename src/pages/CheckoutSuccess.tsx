@@ -9,6 +9,7 @@ const CheckoutSuccess = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const { clearCart } = useCart();
+  const { user } = useAuth();
   const sessionId = params.get("session_id");
   const [status, setStatus] = useState<"verifying" | "paid" | "failed">("verifying");
   const [orderId, setOrderId] = useState<string | null>(null);
