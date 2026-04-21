@@ -80,7 +80,10 @@ const Navbar = () => {
           <Link to="/favourites" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Favourites ({favourites.length})</Link>
           <button onClick={() => { setIsOpen(true); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Cart ({totalItems})</button>
           {user ? (
-            <button onClick={() => { signOut(); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Sign out</button>
+            <>
+              <p className="text-sm text-muted-foreground">Welcome, <span className="text-foreground">{greetingLabel}</span></p>
+              <button onClick={() => { signOut(); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Sign out</button>
+            </>
           ) : (
             <Link to="/auth" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Sign in</Link>
           )}
