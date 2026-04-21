@@ -49,13 +49,18 @@ const Navbar = () => {
             )}
           </button>
           {user ? (
-            <button
-              onClick={signOut}
-              title="Sign out"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <LogOut size={20} />
-            </button>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground hidden lg:inline" title={user.email ?? ""}>
+                Welcome, <span className="text-foreground">{greetingLabel}</span>
+              </span>
+              <button
+                onClick={signOut}
+                title="Sign out"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <LogOut size={20} />
+              </button>
+            </div>
           ) : (
             <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors" title="Sign in">
               <User size={20} />
