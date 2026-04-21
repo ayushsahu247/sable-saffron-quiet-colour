@@ -28,8 +28,15 @@ const findProduct = (id: string) => ALL_PRODUCTS.find((p) => p.id === id);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
   const [items, setItems] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem(LS_KEY);
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem(LS_KEY);
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter((i: any) => i?.product?.id && typeof i.quantity === "number");
+    } catch {
+      return [];
+    }
   });
   const [isOpen, setIsOpen] = useState(false);
 
