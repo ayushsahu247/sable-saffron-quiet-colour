@@ -11,6 +11,13 @@ const Navbar = () => {
   const { user, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const fullName =
+    (user?.user_metadata?.full_name as string | undefined) ||
+    (user?.user_metadata?.name as string | undefined) ||
+    "";
+  const firstName = fullName.trim().split(/\s+/)[0] || "";
+  const greetingLabel = firstName || user?.email || "";
+
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -42,13 +49,18 @@ const Navbar = () => {
             )}
           </button>
           {user ? (
-            <button
-              onClick={signOut}
-              title="Sign out"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <LogOut size={20} />
-            </button>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground hidden lg:inline" title={user.email ?? ""}>
+                Welcome, <span className="text-foreground">{greetingLabel}</span>
+              </span>
+              <button
+                onClick={signOut}
+                title="Sign out"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <LogOut size={20} />
+              </button>
+            </div>
           ) : (
             <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors" title="Sign in">
               <User size={20} />
@@ -68,7 +80,10 @@ const Navbar = () => {
           <Link to="/favourites" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Favourites ({favourites.length})</Link>
           <button onClick={() => { setIsOpen(true); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Cart ({totalItems})</button>
           {user ? (
-            <button onClick={() => { signOut(); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Sign out</button>
+            <>
+              <p className="text-sm text-muted-foreground">Welcome, <span className="text-foreground">{greetingLabel}</span></p>
+              <button onClick={() => { signOut(); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Sign out</button>
+            </>
           ) : (
             <Link to="/auth" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Sign in</Link>
           )}

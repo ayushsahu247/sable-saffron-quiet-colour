@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import FadeIn from "@/components/FadeIn";
 
 const CheckoutSuccess = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const { clearCart } = useCart();
+  const { user } = useAuth();
   const sessionId = params.get("session_id");
   const [status, setStatus] = useState<"verifying" | "paid" | "failed">("verifying");
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -45,9 +47,13 @@ const CheckoutSuccess = () => {
           <>
             <h1 className="font-heading text-4xl text-foreground">Thank you!</h1>
             <p className="text-muted-foreground">
-              Your payment was successful. We've sent a confirmation email
-              {orderId ? ` with reference #${orderId.slice(0, 8).toUpperCase()}` : ""}.
+              Your payment was successful{orderId ? ` — order reference #${orderId.slice(0, 8).toUpperCase()}` : ""}.
             </p>
+            {user?.email && (
+              <p className="text-sm text-muted-foreground">
+                A confirmation email has been sent to <span className="text-foreground">{user.email}</span>. Please check your inbox.
+              </p>
+            )}
             <button
               onClick={() => navigate("/shop")}
               className="mt-4 bg-accent text-accent-foreground px-8 py-3 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
