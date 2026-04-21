@@ -11,6 +11,13 @@ const Navbar = () => {
   const { user, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const fullName =
+    (user?.user_metadata?.full_name as string | undefined) ||
+    (user?.user_metadata?.name as string | undefined) ||
+    "";
+  const firstName = fullName.trim().split(/\s+/)[0] || "";
+  const greetingLabel = firstName || user?.email || "";
+
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
