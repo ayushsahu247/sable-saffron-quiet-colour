@@ -15,6 +15,15 @@ import scarf91 from "@/assets/products/scarf-9-1.jpg";
 import scarf92 from "@/assets/products/scarf-9-2.jpg";
 import scarf93 from "@/assets/products/scarf-9-3.jpg";
 import scarf10 from "@/assets/products/scarf-10.jpg";
+import scarf11 from "@/assets/products/scarf-11.jpg";
+import scarf12 from "@/assets/products/scarf-12.jpg";
+import scarf13 from "@/assets/products/scarf-13.jpg";
+import scarf14 from "@/assets/products/scarf-14.jpg";
+import scarf15 from "@/assets/products/scarf-15.jpg";
+import scarf16 from "@/assets/products/scarf-16.jpg";
+import scarf17 from "@/assets/products/scarf-17.jpg";
+import scarf18 from "@/assets/products/scarf-18.jpg";
+import scarf19 from "@/assets/products/scarf-19.jpg";
 
 export type ProductWeight = "lightweight" | "winter";
 
@@ -142,6 +151,103 @@ export const products: Product[] = [
     images: [scarf10],
     inHighDemand: false,
     colourRef: "olive blossom",
+  },
+  {
+    id: "butter-meadow",
+    name: "Butter Meadow",
+    weight: "lightweight",
+    price: 12.99,
+    originalPrice: 16.99,
+    image: scarf11,
+    images: [scarf11],
+    inHighDemand: false,
+    colourRef: "soft butter yellow",
+  },
+  {
+    id: "rose-petal-drift",
+    name: "Rose Petal Drift",
+    weight: "lightweight",
+    price: 12.99,
+    image: scarf12,
+    images: [scarf12],
+    inHighDemand: true,
+    colourRef: "dusty rose",
+  },
+  {
+    id: "powder-blue-daisy",
+    name: "Powder Blue Daisy",
+    weight: "lightweight",
+    price: 12.99,
+    originalPrice: 16.99,
+    image: scarf13,
+    images: [scarf13],
+    inHighDemand: false,
+    colourRef: "soft powder blue",
+  },
+  {
+    id: "peach-blossom-whisper",
+    name: "Peach Blossom Whisper",
+    weight: "lightweight",
+    price: 12.99,
+    originalPrice: 16.99,
+    image: scarf14,
+    images: [scarf14],
+    inHighDemand: false,
+    colourRef: "warm peach",
+  },
+  {
+    id: "mint-sundrop",
+    name: "Mint Sundrop",
+    weight: "lightweight",
+    price: 12.99,
+    image: scarf15,
+    images: [scarf15],
+    inHighDemand: false,
+    colourRef: "soft mint",
+  },
+  {
+    id: "forest-leaf-jacquard",
+    name: "Forest Leaf Jacquard",
+    weight: "winter",
+    price: 19.99,
+    originalPrice: 25.99,
+    image: scarf16,
+    images: [scarf16],
+    inHighDemand: true,
+    colourRef: "deep forest green and camel",
+  },
+  {
+    id: "plum-rose-wrap",
+    name: "Plum Rose Wrap",
+    weight: "winter",
+    price: 19.99,
+    originalPrice: 25.99,
+    image: scarf17,
+    images: [scarf17],
+    inHighDemand: false,
+    colourRef: "rich plum and rose",
+  },
+  {
+    id: "chocolate-paisley",
+    name: "Chocolate Paisley",
+    weight: "winter",
+    price: 19.99,
+    originalPrice: 25.99,
+    image: scarf18,
+    images: [scarf18],
+    inHighDemand: false,
+    colourRef: "chocolate brown and caramel",
+  },
+  {
+    id: "teal-mustard-bloom",
+    name: "Teal Mustard Bloom",
+    weight: "winter",
+    price: 19.99,
+    originalPrice: 25.99,
+    image: scarf19,
+    images: [scarf19],
+    inHighDemand: true,
+    colourRef: "deep teal and mustard",
   },
 ];
 
