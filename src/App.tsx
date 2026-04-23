@@ -19,6 +19,8 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import About from "./pages/About";
 import Returns from "./pages/Returns";
 import Unsubscribe from "./pages/Unsubscribe";
+import Orders from "./pages/Orders";
+import AdminOrders from "./pages/AdminOrders";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +47,8 @@ const App = () => (
                 <Route path="/returns" element={<Returns />} />
                 <Route path="/unsubscribe" element={<Unsubscribe />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Footer />

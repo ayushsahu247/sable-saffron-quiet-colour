@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, Heart, Menu, X, User, LogOut } from "lucide-react";
+import { ShoppingBag, Heart, Menu, X, User, LogOut, Package, ShieldCheck } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useFavourites } from "@/context/FavouritesContext";
 import { useAuth } from "@/context/AuthContext";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useState } from "react";
 
 const Navbar = () => {
   const { totalItems, setIsOpen } = useCart();
   const { favourites } = useFavourites();
   const { user, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const fullName =
@@ -50,6 +52,14 @@ const Navbar = () => {
           </button>
           {user ? (
             <div className="flex items-center gap-3">
+              <Link to="/orders" title="My orders" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Package size={20} />
+              </Link>
+              {isAdmin && (
+                <Link to="/admin/orders" title="Admin" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <ShieldCheck size={20} />
+                </Link>
+              )}
               <span className="text-sm text-muted-foreground hidden lg:inline" title={user.email ?? ""}>
                 Welcome, <span className="text-foreground">{greetingLabel}</span>
               </span>
@@ -82,6 +92,10 @@ const Navbar = () => {
           {user ? (
             <>
               <p className="text-sm text-muted-foreground">Welcome, <span className="text-foreground">{greetingLabel}</span></p>
+              <Link to="/orders" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">My orders</Link>
+              {isAdmin && (
+                <Link to="/admin/orders" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Admin · Orders</Link>
+              )}
               <button onClick={() => { signOut(); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Sign out</button>
             </>
           ) : (
