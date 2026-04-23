@@ -20,7 +20,8 @@ interface CartContextType {
   subtotal: number;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+// eslint-disable-next-line react-refresh/only-export-components
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 const LS_KEY = "sable-cart";
 
 const findProduct = (id: string) => ALL_PRODUCTS.find((p) => p.id === id);
