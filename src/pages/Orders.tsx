@@ -38,9 +38,11 @@ const shipmentLabel = (status?: string) => {
     case "delivered":
       return { label: "Delivered", tone: "bg-primary/20 text-foreground" };
     case "to_dispatch":
-      return { label: "Preparing", tone: "bg-muted text-muted-foreground" };
     default:
-      return { label: "Awaiting payment", tone: "bg-muted text-muted-foreground" };
+      return {
+        label: "Payment received — being prepared for dispatch",
+        tone: "bg-accent/30 text-foreground",
+      };
   }
 };
 
@@ -63,6 +65,7 @@ const Orders = () => {
         .from("orders")
         .select("id, created_at, subtotal, payment_status, status, items")
         .eq("user_id", user.id)
+        .eq("payment_status", "paid")
         .order("created_at", { ascending: false });
       const list = (orderData ?? []) as unknown as OrderRow[];
       setOrders(list);
@@ -101,7 +104,7 @@ const Orders = () => {
         <div className="space-y-4">
           {orders.map((o) => {
             const ship = shipments[o.id];
-            const tag = o.payment_status !== "paid" ? { label: "Awaiting payment", tone: "bg-muted text-muted-foreground" } : shipmentLabel(ship?.status);
+            const tag = shipmentLabel(ship?.status);
             return (
               <Card key={o.id}>
                 <CardHeader className="flex-row items-start justify-between gap-4 space-y-0">

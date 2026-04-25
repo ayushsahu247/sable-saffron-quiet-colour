@@ -17,6 +17,7 @@ const CheckoutSuccess = () => {
   useEffect(() => {
     if (!sessionId) {
       setStatus("failed");
+      clearCart();
       return;
     }
     (async () => {
@@ -25,6 +26,7 @@ const CheckoutSuccess = () => {
       });
       if (error || !data?.paid) {
         setStatus("failed");
+        await clearCart();
         return;
       }
       setOrderId(data.orderId);
@@ -47,7 +49,7 @@ const CheckoutSuccess = () => {
           <>
             <h1 className="font-heading text-4xl text-foreground">Thank you!</h1>
             <p className="text-muted-foreground">
-              Your payment was successful{orderId ? ` — order reference #${orderId.slice(0, 8).toUpperCase()}` : ""}.
+              Payment received — your order is being prepared for dispatch{orderId ? ` (reference #${orderId.slice(0, 8).toUpperCase()})` : ""}.
             </p>
             {user?.email && (
               <p className="text-sm text-muted-foreground">

@@ -54,9 +54,14 @@ const Navbar = () => {
             )}
           </button>
           {user ? (
-            <div className="flex items-center gap-3">
-              <Link to="/orders" title="My orders" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Package size={20} />
+            <div className="flex items-center gap-4">
+              <Link
+                to="/orders"
+                title="My orders"
+                className="inline-flex items-center gap-1.5 text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Package size={18} />
+                <span>Orders</span>
               </Link>
               {isAdmin && (
                 <Link to="/admin/orders" title="Admin" className="text-muted-foreground hover:text-foreground transition-colors">

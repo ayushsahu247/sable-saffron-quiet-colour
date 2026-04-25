@@ -58,8 +58,9 @@ const OrderConfirmationEmail = ({
           {customerName ? `Thank you, ${customerName}` : 'Thank you for your order'}
         </Heading>
         <Text style={text}>
-          We've received your order at {SITE_NAME} and are carefully preparing
-          it for dispatch. You'll receive another email when it's on its way.
+          Thank you for your order. We've received your payment and your scarf
+          is being carefully prepared for dispatch. You'll receive a shipping
+          update soon.
         </Text>
 
         {orderId && (
@@ -108,7 +109,7 @@ const OrderConfirmationEmail = ({
         <Text style={footer}>
           Questions? Just reply to this email and we'll be in touch.
           <br />
-          With warmth, the {SITE_NAME} team
+          With love, {SITE_NAME}
         </Text>
       </Container>
     </Body>
