@@ -5,6 +5,7 @@ import { getProductById, getWeightLabel, getProductDescription, getProductWashIn
 import { useCart } from "@/context/CartContext";
 import { useFavourites } from "@/context/FavouritesContext";
 import FadeIn from "@/components/FadeIn";
+import Seo, { SITE_URL } from "@/components/Seo";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 
 const ProductDetail = () => {

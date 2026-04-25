@@ -13,8 +13,9 @@ const ProductCard = ({ product }: { product: Product }) => {
         <div className="relative overflow-hidden rounded-lg bg-muted aspect-[4/5]">
           <img
             src={product.image}
-            alt={product.name}
+            alt={`${product.name} — ${product.weight === "winter" ? "winter" : "lightweight"} scarf in ${product.colourRef} | Sable & Saffron`}
             loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           {product.inHighDemand && (
