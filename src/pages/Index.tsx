@@ -75,8 +75,8 @@ const Index = () => {
   return (
     <main>
       <Seo
-        title="Sable & Saffron | Handpicked Scarves in Soft Colour | UK"
-        description="Shop handpicked scarves in soft, feminine colour. Lightweight and winter styles that pair beautifully with neutral coats and jumpers. Free UK delivery available."
+        title="Sable & Saffron | Lightweight & Floral Scarves for Women | UK"
+        description="Shop soft, feminine scarves in beautiful colour - lightweight summer styles and warm winter wraps. The perfect gift for her or a treat for yourself. Free UK delivery."
         path="/"
         ogImage={`${SITE_URL}${heroImage}`}
         ogType="website"
