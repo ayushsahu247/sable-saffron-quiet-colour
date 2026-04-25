@@ -180,7 +180,7 @@ export const products: Product[] = [
     id: "apricot-blossom-fringe",
     name: "Apricot Blossom Fringe Scarf",
     weight: "winter",
-    price: 0.99,
+    price: 0.49,
     image: scarf8,
     images: [scarf8],
     inHighDemand: false,
