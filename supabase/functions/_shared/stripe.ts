@@ -44,7 +44,7 @@ export function createStripeClient(env: 'sandbox' | 'live' = 'sandbox'): StripeC
   }
 
   return {
-    async request<T = any>(method, path, body) {
+    async request<T = any>(method: 'GET' | 'POST' | 'DELETE', path: string, body?: Record<string, any>): Promise<T> {
       const url = `${GATEWAY_URL}${path}`
       const init: RequestInit = {
         method,
