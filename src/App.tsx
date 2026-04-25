@@ -19,6 +19,7 @@ import Checkout from "./pages/Checkout";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import About from "./pages/About";
 import Returns from "./pages/Returns";
+import Contact from "./pages/Contact";
 import Unsubscribe from "./pages/Unsubscribe";
 import Orders from "./pages/Orders";
 import AdminOrders from "./pages/AdminOrders";
@@ -47,6 +48,7 @@ const App = () => (
                 <Route path="/checkout/success" element={<CheckoutSuccess />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/returns" element={<Returns />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/unsubscribe" element={<Unsubscribe />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/orders" element={<Orders />} />
