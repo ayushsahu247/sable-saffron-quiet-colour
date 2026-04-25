@@ -10,13 +10,20 @@ const corsHeaders = {
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders })
 
+  console.log('[verify-payment] invoked', { method: req.method, url: req.url })
+
   try {
     const url = new URL(req.url)
-    const sessionId =
-      url.searchParams.get('session_id') ||
-      (req.method === 'POST' ? (await req.json().catch(() => ({}))).session_id : null)
+    let sessionId = url.searchParams.get('session_id')
+    if (!sessionId && req.method === 'POST') {
+      const body = await req.json().catch(() => ({}))
+      sessionId = body.session_id
+    }
+
+    console.log('[verify-payment] session_id:', sessionId)
 
     if (!sessionId) {
+      console.error('[verify-payment] missing session_id')
       return new Response(JSON.stringify({ error: 'session_id is required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -32,12 +39,21 @@ Deno.serve(async (req) => {
       metadata?: Record<string, string>
     }>('GET', `/v1/checkout/sessions/${sessionId}`)
 
+    console.log('[verify-payment] stripe session', {
+      id: session.id,
+      payment_status: session.payment_status,
+      client_reference_id: session.client_reference_id,
+      metadata: session.metadata,
+    })
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const supabaseService = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const admin = createClient(supabaseUrl, supabaseService)
 
     const orderId = session.client_reference_id || session.metadata?.order_id
+    console.log('[verify-payment] resolved orderId:', orderId)
     if (!orderId) {
+      console.error('[verify-payment] order id missing on stripe session')
       return new Response(JSON.stringify({ error: 'Order id not found on session' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
