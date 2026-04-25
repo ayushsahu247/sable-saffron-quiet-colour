@@ -17,7 +17,7 @@ const About = () => (
         <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
           <p>There's a particular kind of dressing that never goes out of style. A great coat. A clean jumper. Shoes that work with everything. Neutrals, done well.</p>
           <p>Sable & Saffron exists for what comes next.</p>
-          <p>We curate scarves in soft, considered colour. Think florals, woven patterns, shades that sit beautifully alongside everything you already own. Never clashing. Never loud. Just a quiet pop that makes the whole outfit feel intentional.</p>
+          <p>We curate women's scarves UK-wide in soft, considered colour. Think florals, woven patterns, soft colourful scarves in shades that sit beautifully alongside everything you already own. Never clashing. Never loud. Just a quiet pop that makes the whole outfit feel intentional.</p>
           <p>Every piece is chosen for its colour, its pattern, and the way it sits on the shoulder. Lightweight silks for the in-between days. Richly woven jacquards for the cold ones. Each one beautiful. Each one worth keeping.</p>
           <p>One for Monday. One for the weekend. One for the coat you wear everywhere.</p>
           <p>Collect them. Layer them. Gift them. Wear them on a Tuesday like it's nothing.</p>
