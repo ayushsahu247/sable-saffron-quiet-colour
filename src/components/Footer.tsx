@@ -9,13 +9,19 @@ const Footer = () => (
           <p className="font-heading text-xl font-semibold text-foreground">Sable & Saffron</p>
           <p className="text-sm text-muted-foreground mt-1">Colour, quietly.</p>
         </div>
-        <div className="flex items-center gap-6 text-sm text-muted-foreground">
-          <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
-          <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
-          <a href="mailto:hello@sableandsaffron.co.uk" className="hover:text-foreground transition-colors">Contact</a>
-          <Link to="/returns" className="hover:text-foreground transition-colors">Returns</Link>
-        </div>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+        <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
+          <Link to="/shop" className="hover:text-foreground transition-colors py-2">Shop</Link>
+          <Link to="/about" className="hover:text-foreground transition-colors py-2">About</Link>
+          <Link to="/contact" className="hover:text-foreground transition-colors py-2">Contact</Link>
+          <Link to="/returns" className="hover:text-foreground transition-colors py-2">Returns</Link>
+        </nav>
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Sable & Saffron on Instagram"
+          className="text-muted-foreground hover:text-foreground transition-colors min-w-11 min-h-11 inline-flex items-center justify-center"
+        >
           <Instagram size={20} />
         </a>
       </div>
