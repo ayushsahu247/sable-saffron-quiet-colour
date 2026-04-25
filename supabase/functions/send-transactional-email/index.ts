@@ -9,10 +9,10 @@ const SITE_NAME = "Sable & Saffron"
 // SENDER_DOMAIN is the verified sender subdomain FQDN (e.g., "notify.example.com").
 // It MUST match the subdomain delegated to Lovable's nameservers — never the root domain.
 // The email API looks up this exact domain; a mismatch causes "No email domain record found".
-const SENDER_DOMAIN = "notify.www.sableandsaffron.xyz"
+const SENDER_DOMAIN = "notify.sableandsaffron.xyz"
 // FROM_DOMAIN is the domain shown in the From: header and must align with the
 // verified sender domain configuration for this project.
-const FROM_DOMAIN = "notify.www.sableandsaffron.xyz"
+const FROM_DOMAIN = "sableandsaffron.xyz"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

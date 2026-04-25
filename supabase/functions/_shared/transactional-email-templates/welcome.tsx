@@ -14,7 +14,7 @@ import {
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'Sable & Saffron'
-const SITE_URL = 'https://www.sableandsaffron.xyz'
+const SITE_URL = 'https://sableandsaffron.xyz'
 
 interface WelcomeProps {
   customerName?: string
