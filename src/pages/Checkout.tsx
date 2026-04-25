@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -15,13 +15,21 @@ const isValidUKPhone = (raw: string) => {
 };
 
 const Checkout = () => {
-  const { items, subtotal } = useCart();
+  const { items, subtotal, clearCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const cancelled = params.get("cancelled") === "1";
+
+  // Clear cart if user returned from a cancelled/abandoned payment attempt
+  useEffect(() => {
+    if (cancelled) {
+      clearCart();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cancelled]);
 
   if (!user) {
     return (
