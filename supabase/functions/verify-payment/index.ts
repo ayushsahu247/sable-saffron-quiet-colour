@@ -23,7 +23,7 @@ Deno.serve(async (req) => {
       })
     }
 
-    const stripe = createStripeClient('sandbox')
+    const stripe = createStripeClient('live')
     const session = await stripe.request<{
       id: string
       payment_status: string
