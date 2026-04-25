@@ -76,8 +76,8 @@ Deno.serve(async (req) => {
     }
 
     if (paid && order.payment_status !== 'paid') {
-      // Mark paid
-      await admin
+      console.log('[verify-payment] marking order paid', { orderId })
+      const { error: updErr } = await admin
         .from('orders')
         .update({
           payment_status: 'paid',
@@ -85,6 +85,7 @@ Deno.serve(async (req) => {
           paid_at: new Date().toISOString(),
         })
         .eq('id', orderId)
+      if (updErr) console.error('[verify-payment] order update failed', updErr)
 
       // Clear cart items for this user
       if (order.user_id) {
@@ -100,7 +101,8 @@ Deno.serve(async (req) => {
 
       // 1) Customer order confirmation
       try {
-        await admin.functions.invoke('send-transactional-email', {
+        console.log('[verify-payment] sending order-confirmation', { recipient: order.email })
+        const { data: r1, error: e1 } = await admin.functions.invoke('send-transactional-email', {
           body: {
             templateName: 'order-confirmation',
             recipientEmail: order.email,
@@ -114,6 +116,7 @@ Deno.serve(async (req) => {
             },
           },
         })
+        console.log('[verify-payment] order-confirmation result', { recipient: order.email, data: r1, error: e1 })
       } catch (e) {
         console.error('Failed to send order confirmation', e)
       }
@@ -131,7 +134,8 @@ Deno.serve(async (req) => {
       // CUSTOMIZE: change OWNER_NOTIFICATION_EMAIL to the address that should receive new-order alerts.
       const OWNER_NOTIFICATION_EMAIL = 'orders@sableandsaffron.xyz'
       try {
-        await admin.functions.invoke('send-transactional-email', {
+        console.log('[verify-payment] sending new-order-owner', { recipient: OWNER_NOTIFICATION_EMAIL })
+        const { data: r2, error: e2 } = await admin.functions.invoke('send-transactional-email', {
           body: {
             templateName: 'new-order-owner',
             recipientEmail: OWNER_NOTIFICATION_EMAIL,
@@ -147,6 +151,7 @@ Deno.serve(async (req) => {
             },
           },
         })
+        console.log('[verify-payment] new-order-owner result', { recipient: OWNER_NOTIFICATION_EMAIL, data: r2, error: e2 })
       } catch (e) {
         console.error('Failed to send owner notification', e)
       }
