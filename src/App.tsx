@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PageViewTracker from "@/components/PageViewTracker";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -28,10 +29,11 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <HashRouter>
+      <BrowserRouter>
         <AuthProvider>
           <CartProvider>
             <FavouritesProvider>
+              <PageViewTracker />
               <Toaster />
               <Sonner />
               <Navbar />
@@ -55,7 +57,7 @@ const App = () => (
             </FavouritesProvider>
           </CartProvider>
         </AuthProvider>
-      </HashRouter>
+      </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
