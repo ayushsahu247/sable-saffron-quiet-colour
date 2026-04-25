@@ -1,7 +1,14 @@
 import FadeIn from "@/components/FadeIn";
+import Seo from "@/components/Seo";
 
 const About = () => (
   <main className="py-12 md:py-24">
+    <Seo
+      title="About Sable & Saffron | Colour, Quietly"
+      description="Sable & Saffron curates handpicked scarves in soft, considered colour — lightweight silks and richly woven jacquards designed to layer with neutral wardrobes."
+      path="/about"
+      ogType="website"
+    />
     <div className="container mx-auto px-6 max-w-2xl text-center">
       <FadeIn className="space-y-8">
         <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground leading-tight">
