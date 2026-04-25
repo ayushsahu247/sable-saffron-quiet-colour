@@ -2,6 +2,7 @@ import { useState } from "react";
 import { products, type ProductWeight } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
+import Seo, { SITE_URL } from "@/components/Seo";
 
 type Filter = "all" | ProductWeight;
 
