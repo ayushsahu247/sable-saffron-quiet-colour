@@ -103,7 +103,7 @@ const Checkout = () => {
           <h1 className="font-heading text-4xl font-light text-foreground">Checkout</h1>
           {cancelled && (
             <p className="mt-3 text-sm text-[hsl(var(--accent))]">
-              Payment cancelled — your cart is still here. You can try again any time.
+              Payment was cancelled. Your cart has been cleared — feel free to browse and start again.
             </p>
           )}
         </FadeIn>
