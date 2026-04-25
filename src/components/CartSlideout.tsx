@@ -24,7 +24,7 @@ const CartSlideout = () => {
           ) : (
             items.map((item) => (
               <div key={item.product.id} className="flex gap-4">
-                <img src={item.product.image} alt={item.product.name} className="w-20 h-24 object-cover rounded-lg" />
+                <img src={item.product.image} alt={item.product.name} width={80} height={96} loading="lazy" decoding="async" className="w-20 h-24 object-cover rounded-lg bg-muted" />
                 <div className="flex-1 space-y-2">
                   <h3 className="font-heading text-sm font-medium">{item.product.name}</h3>
                   <p className="text-sm text-foreground">£{item.product.price.toFixed(2)}</p>

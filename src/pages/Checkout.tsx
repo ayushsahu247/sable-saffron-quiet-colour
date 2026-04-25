@@ -141,7 +141,7 @@ const Checkout = () => {
             <div className="space-y-4">
               {items.map((item) => (
                 <div key={item.product.id} className="flex gap-3">
-                  <img src={item.product.image} alt={item.product.name} className="w-16 h-20 rounded-lg object-cover" />
+                  <img src={item.product.image} alt={item.product.name} width={64} height={80} loading="lazy" decoding="async" className="w-16 h-20 rounded-lg object-cover bg-muted" />
                   <div className="flex-1">
                     <p className="text-sm font-medium text-foreground">{item.product.name}</p>
                     <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
