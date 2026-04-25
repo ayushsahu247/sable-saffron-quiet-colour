@@ -12,7 +12,7 @@ const SITE_NAME = "Sable & Saffron"
 const SENDER_DOMAIN = "notify.www.sableandsaffron.xyz"
 // FROM_DOMAIN is the domain shown in the From: header and must align with the
 // verified sender domain configuration for this project.
-const FROM_DOMAIN = "sableandsaffron.xyz"
+const FROM_DOMAIN = "notify.www.sableandsaffron.xyz"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

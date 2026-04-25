@@ -127,8 +127,8 @@ Deno.serve(async (req) => {
       mode: 'payment',
       payment_method_types: ['card'],
       customer_email: shipping.email,
-      success_url: `${origin}/#/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/#/checkout?cancelled=1`,
+      success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/checkout?cancelled=1`,
       client_reference_id: orderId,
       metadata: { order_id: orderId, user_id: user.id },
       line_items: items.map((i) => ({
