@@ -50,19 +50,27 @@ const Shop = () => {
       <div className="container mx-auto px-6">
         <FadeIn className="text-center mb-8 space-y-3 max-w-2xl mx-auto">
           <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Scarves for Transitional Weather — Lightweight &amp; Warm Styles in the UK
+            Scarves for Transitional Weather. Lightweight &amp; Warm Styles in the UK
           </h1>
           <p className="text-sm text-muted-foreground">
-            A wardrobe that adapts — not separate for seasons, but continuous across them.
+            A wardrobe that adapts. Not separate for seasons, but continuous across them.
           </p>
         </FadeIn>
 
         <FadeIn className="max-w-2xl mx-auto text-center mb-10 space-y-3">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            This collection is shaped around the rhythm of UK weather, where warmth and cool often exist within the same week.
+            This collection is shaped around the rhythm of UK weather, where warmth and cool often exist within the same
+            week.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Lightweight scarves offer breathable comfort for spring and summer, sitting easily over dresses and everyday wear. Warmer scarves provide softness and insulation for colder days, without heaviness.
+            Lightweight scarves offer breathable comfort for spring and summer, sitting easily over dresses and everyday
+            wear. Warmer scarves provide softness and insulation for colder days, without heaviness.
+          </p>
+        </FadeIn>
+
+        <FadeIn className="max-w-2xl mx-auto text-center mb-10 space-y-3">
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Soft and lightweight for summer. Warm and graceful for winter. Beautiful for both.
           </p>
         </FadeIn>
 
