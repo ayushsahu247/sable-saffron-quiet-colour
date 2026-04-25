@@ -73,8 +73,12 @@ const ProductDetail = () => {
   return (
     <main className="py-8 md:py-16">
       <Seo
-        title={`${product.name} | Women's Scarf UK | Sable & Saffron`}
-        description={`${product.name} — a soft, feminine scarf in ${product.colourRef} with a beautiful woven pattern. Lightweight and elegant, perfect for summer outfits or as a gift for her. Shop now at Sable & Saffron.`}
+        title={`${product.name} | ${product.weight === "winter" ? "Soft Winter Scarf" : "Lightweight Summer Scarf"} for Women UK | Sable & Saffron`}
+        description={
+          product.weight === "winter"
+            ? `${product.name} — a soft winter scarf for women in the UK in ${product.colourRef}. Warm without heaviness, designed to layer easily with coats and knitwear.`
+            : `${product.name} — a lightweight summer scarf for women in the UK in ${product.colourRef}. Soft, breathable and easy to layer with dresses and everyday wear.`
+        }
         path={`/product/${product.id}`}
         ogImage={ogImage}
         ogType="product"
@@ -155,6 +159,27 @@ const ProductDetail = () => {
             <p className="text-sm text-muted-foreground leading-relaxed">
               {getProductDescription(product.weight, product.colourRef)}
             </p>
+
+            <div className="space-y-2 pt-2">
+              <h2 className="font-heading text-base font-medium text-foreground">Details</h2>
+              <ul className="text-sm text-muted-foreground leading-relaxed list-disc pl-5 space-y-1">
+                {product.weight === "winter" ? (
+                  <>
+                    <li>Soft and warm for UK autumn and winter</li>
+                    <li>Comfortable for extended wear</li>
+                    <li>Easy to layer with outerwear</li>
+                    <li>Balanced, everyday design</li>
+                  </>
+                ) : (
+                  <>
+                    <li>Lightweight and breathable</li>
+                    <li>Suitable for UK spring and summer</li>
+                    <li>Easy to layer with dresses and everyday wear</li>
+                    <li>Soft, comfortable drape</li>
+                  </>
+                )}
+              </ul>
+            </div>
 
             <div className="space-y-3 pt-2">
               <button

@@ -542,12 +542,12 @@ export const products: Product[] = [
 export const getProductById = (id: string) => products.find((p) => p.id === id);
 
 export const getWeightLabel = (weight: ProductWeight) =>
-  weight === "lightweight" ? "Lightweight — Summar & Autumn" : "Winter";
+  weight === "lightweight" ? "Lightweight — Spring & Summer" : "Warm — Autumn & Winter";
 
 export const getProductDescription = (weight: ProductWeight, colourRef: string) =>
   weight === "winter"
-    ? `Elevate your wardrobe effortlessly with this richly woven jacquard scarf, where the pattern is built into the fabric itself - not printed, not painted, but woven in. Warm and feminine without being bulky, it drapes beautifully and wraps with ease. Neatly finished edges, timeless floral pattern, soft enough to wear against the skin. Designed to add a quiet pop of ${colourRef} to an otherwise grey UK winter. Pairs beautifully with coats and jumpers. The kind of piece you reach for every morning without thinking.`
-    : `Soft as a whisper and light as air - this scarf is the one you didn't know your wardrobe was missing. A fluid, silk-touch weave that drapes effortlessly and moves with you through the day. Worn loose over a blouse, tucked into a knit, or thrown over a shoulder on a cool autumn evening - it works every time. Adds a gentle pop of ${colourRef} without effort, without thought. Equally at home at brunch or at the office. The kind of piece you buy in one colour and come back for in three more.`;
+    ? `A soft winter scarf for women in the UK, designed for warmth without heaviness. Created for colder days, while remaining comfortable indoors and outdoors. A warm, soft fabric that holds heat while keeping a gentle feel against the skin, finished in a quiet shade of ${colourRef}. Layers easily with coats and knitwear, without overwhelming the outfit. Warmth that feels natural, and settles easily into your routine.`
+    : `A lightweight summer scarf for women in the UK, designed for breathable comfort and ease. Made for warm days that shift gently into cooler moments — easy to layer over dresses and everyday wear without adding weight. A soft, breathable fabric with a fluid drape, finished in a considered shade of ${colourRef} that sits naturally within your wardrobe. A scarf that stays with you through the day, without ever feeling like too much.`;
 
 export const getProductWashInstructions = (weight: ProductWeight) =>
   weight === "winter"

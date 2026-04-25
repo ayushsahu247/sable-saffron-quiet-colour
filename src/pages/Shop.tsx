@@ -41,25 +41,28 @@ const Shop = () => {
   return (
     <main className="py-12 md:py-20">
       <Seo
-        title="Shop Women's Scarves UK | Lightweight & Winter Styles | Sable & Saffron"
-        description="Browse our collection of soft floral and woven scarves for women. Lightweight summer styles and warm winter wraps - beautiful colour that pairs with everything."
+        title="Scarves for Transitional Weather UK | Lightweight & Warm Styles | Sable & Saffron"
+        description="Women scarves UK for transitional weather. Lightweight summer scarves and warm winter styles, designed for layering across changing British days."
         path="/shop"
         ogType="website"
         jsonLd={[breadcrumbSchema, itemListSchema]}
       />
       <div className="container mx-auto px-6">
-        <FadeIn className="text-center mb-8 space-y-3">
-          <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground">The Collection</h1>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto">
-            Lightweight for summer and autumn. Warm for winter. Beautiful for both.
+        <FadeIn className="text-center mb-8 space-y-3 max-w-2xl mx-auto">
+          <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground">
+            Scarves for Transitional Weather — Lightweight &amp; Warm Styles in the UK
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            A wardrobe that adapts — not separate for seasons, but continuous across them.
           </p>
         </FadeIn>
 
-        <FadeIn className="max-w-2xl mx-auto text-center mb-10">
+        <FadeIn className="max-w-2xl mx-auto text-center mb-10 space-y-3">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Whether you're after a lightweight scarf for summer outfits, a soft floral wrap for cooler
-            evenings, or a thoughtful gift for her — you'll find it here. Every piece is chosen for its
-            colour, its pattern, and the way it sits on the shoulder.
+            This collection is shaped around the rhythm of UK weather, where warmth and cool often exist within the same week.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Lightweight scarves offer breathable comfort for spring and summer, sitting easily over dresses and everyday wear. Warmer scarves provide softness and insulation for colder days, without heaviness.
           </p>
         </FadeIn>
 
