@@ -34,6 +34,9 @@ const Navbar = () => {
           <Link to="/about" className="text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors">
             About
           </Link>
+          <Link to="/contact" className="text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors">
+            Contact
+          </Link>
           <Link to="/favourites" className="relative text-muted-foreground hover:text-foreground transition-colors">
             <Heart size={20} />
             {favourites.length > 0 && (
@@ -78,28 +81,34 @@ const Navbar = () => {
           )}
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
+        <button
+          className="md:hidden text-foreground min-w-11 min-h-11 inline-flex items-center justify-center -mr-2"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+        >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-background px-6 py-4 space-y-4">
-          <Link to="/shop" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Shop</Link>
-          <Link to="/about" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">About</Link>
-          <Link to="/favourites" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Favourites ({favourites.length})</Link>
-          <button onClick={() => { setIsOpen(true); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Cart ({totalItems})</button>
+        <div className="md:hidden border-t border-border bg-background px-6 py-2 space-y-1">
+          <Link to="/shop" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground py-3">Shop</Link>
+          <Link to="/about" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground py-3">About</Link>
+          <Link to="/contact" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground py-3">Contact</Link>
+          <Link to="/favourites" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground py-3">Favourites ({favourites.length})</Link>
+          <button onClick={() => { setIsOpen(true); setMobileOpen(false); }} className="block w-full text-left text-sm tracking-wide text-muted-foreground py-3">Cart ({totalItems})</button>
           {user ? (
             <>
-              <p className="text-sm text-muted-foreground">Welcome, <span className="text-foreground">{greetingLabel}</span></p>
-              <Link to="/orders" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">My orders</Link>
+              <p className="text-sm text-muted-foreground py-2">Welcome, <span className="text-foreground">{greetingLabel}</span></p>
+              <Link to="/orders" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground py-3">My orders</Link>
               {isAdmin && (
-                <Link to="/admin/orders" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Admin · Orders</Link>
+                <Link to="/admin/orders" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground py-3">Admin · Orders</Link>
               )}
-              <button onClick={() => { signOut(); setMobileOpen(false); }} className="block text-sm tracking-wide text-muted-foreground">Sign out</button>
+              <button onClick={() => { signOut(); setMobileOpen(false); }} className="block w-full text-left text-sm tracking-wide text-muted-foreground py-3">Sign out</button>
             </>
           ) : (
-            <Link to="/auth" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground">Sign in</Link>
+            <Link to="/auth" onClick={() => setMobileOpen(false)} className="block text-sm tracking-wide text-muted-foreground py-3">Sign in</Link>
           )}
         </div>
       )}

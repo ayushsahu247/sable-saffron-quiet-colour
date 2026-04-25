@@ -75,8 +75,8 @@ const Index = () => {
   return (
     <main>
       <Seo
-        title="Sable & Saffron | Handpicked Scarves in Soft Colour | UK"
-        description="Shop handpicked scarves in soft, feminine colour. Lightweight and winter styles that pair beautifully with neutral coats and jumpers. Free UK delivery available."
+        title="Sable & Saffron | Lightweight & Floral Scarves for Women | UK"
+        description="Shop soft, feminine scarves in beautiful colour - lightweight summer styles and warm winter wraps. The perfect gift for her or a treat for yourself. Free UK delivery."
         path="/"
         ogImage={`${SITE_URL}${heroImage}`}
         ogType="website"
@@ -115,6 +115,15 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Intro / SEO H2 */}
+      <section className="py-12 md:py-16 border-b border-border">
+        <div className="container mx-auto px-6 max-w-3xl text-center">
+          <h2 className="font-heading text-2xl md:text-3xl font-light text-foreground leading-relaxed">
+            Lightweight floral scarves and soft woven wraps — handpicked for women who love colour done quietly. Shop summer scarves, gift ideas and everyday elegance.
+          </h2>
+        </div>
+      </section>
+
       {/* Brand Strip */}
       <section className="py-16 md:py-20 border-b border-border">
         <div className="container mx-auto px-6 grid md:grid-cols-3 gap-10 md:gap-16">
@@ -140,10 +149,10 @@ const Index = () => {
               Soft colour for a grey winter.
             </h2>
           </FadeIn>
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
             {featuredProducts.map((product, i) => (
               <FadeIn key={product.id} delay={i * 0.1}>
-                <ProductCard product={product} />
+                <ProductCard product={product} priority />
               </FadeIn>
             ))}
           </div>

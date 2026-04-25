@@ -30,7 +30,7 @@ const Favourites = () => {
                 <div className="group relative">
                   <Link to={`/product/${product.id}`}>
                     <div className="overflow-hidden rounded-lg bg-muted aspect-[4/5]">
-                      <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <img src={product.image} alt={`${product.name} — soft floral scarf for women in ${product.colourRef} | Sable & Saffron UK`} width={600} height={750} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-muted" />
                     </div>
                     <div className="mt-3 space-y-1">
                       <h3 className="font-heading text-lg font-medium text-foreground">{product.name}</h3>
