@@ -111,8 +111,8 @@ Deno.serve(async (req) => {
       })
     }
 
-    // 2. Create Stripe Checkout Session via gateway (sandbox)
-    const stripe = createStripeClient('sandbox')
+    // 2. Create Stripe Checkout Session via gateway (live)
+    const stripe = createStripeClient('live')
     const origin =
       req.headers.get('origin') ||
       req.headers.get('referer')?.replace(/\/$/, '') ||

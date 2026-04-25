@@ -36,20 +36,15 @@ function encodeForm(obj: Record<string, any>, prefix = ''): string {
 
 export function createStripeClient(env: 'sandbox' | 'live' = 'sandbox'): StripeClient {
   const lovableKey = Deno.env.get('LOVABLE_API_KEY')
-  const stripeKey =
-    env === 'live'
-      ? Deno.env.get('STRIPE_API_KEY')
-      : Deno.env.get('STRIPE_SANDBOX_API_KEY')
+  const stripeKey = Deno.env.get('STRIPE_LIVE_SECRET_KEY')
 
   if (!lovableKey) throw new Error('LOVABLE_API_KEY is not configured')
   if (!stripeKey) {
-    throw new Error(
-      `Stripe ${env} key not configured (${env === 'live' ? 'STRIPE_API_KEY' : 'STRIPE_SANDBOX_API_KEY'})`,
-    )
+    throw new Error('Stripe live key not configured (STRIPE_LIVE_SECRET_KEY)')
   }
 
   return {
-    async request<T = any>(method, path, body) {
+    async request<T = any>(method: 'GET' | 'POST' | 'DELETE', path: string, body?: Record<string, any>): Promise<T> {
       const url = `${GATEWAY_URL}${path}`
       const init: RequestInit = {
         method,
