@@ -73,8 +73,8 @@ const ProductDetail = () => {
   return (
     <main className="py-8 md:py-16">
       <Seo
-        title={`${product.name} | Sable & Saffron`}
-        description={description}
+        title={`${product.name} | Women's Scarf UK | Sable & Saffron`}
+        description={`${product.name} — a soft, feminine scarf in ${product.colourRef} with a beautiful woven pattern. Lightweight and elegant, perfect for summer outfits or as a gift for her. Shop now at Sable & Saffron.`}
         path={`/product/${product.id}`}
         ogImage={ogImage}
         ogType="product"
@@ -95,9 +95,11 @@ const ProductDetail = () => {
                       <div className="overflow-hidden rounded-xl bg-muted aspect-[4/5]">
                         <img
                           src={src}
-                          alt={`${product.name} — ${weightWord} scarf in ${product.colourRef} | Sable & Saffron${images.length > 1 ? ` (view ${i + 1})` : ""}`}
+                          alt={`${product.name} — soft floral scarf for women in ${product.colourRef} | Sable & Saffron UK${images.length > 1 ? ` (view ${i + 1})` : ""}`}
+                          width={800}
+                          height={1000}
                           loading={i === 0 ? "eager" : "lazy"}
-                          decoding="async"
+                          decoding={i === 0 ? "sync" : "async"}
                           fetchPriority={i === 0 ? "high" : "auto"}
                           className="w-full h-full object-cover"
                         />
