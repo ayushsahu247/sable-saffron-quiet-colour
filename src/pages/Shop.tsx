@@ -17,8 +17,24 @@ const Shop = () => {
     { label: "Winter", value: "winter" },
   ];
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Shop the Collection", item: `${SITE_URL}/shop` },
+    ],
+  };
+
   return (
     <main className="py-12 md:py-20">
+      <Seo
+        title="Shop the Collection | Sable & Saffron Scarves"
+        description="Browse our full range of lightweight and heavy winter scarves in soft floral and woven patterns. Designed for everyday elegance."
+        path="/shop"
+        ogType="website"
+        jsonLd={breadcrumbSchema}
+      />
       <div className="container mx-auto px-6">
         <FadeIn className="text-center mb-12 space-y-3">
           <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground">The Collection</h1>
