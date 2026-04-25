@@ -18,6 +18,11 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders })
 
   try {
+    const liveKey = Deno.env.get('STRIPE_LIVE_SECRET_KEY')
+    console.log(
+      `[create-checkout] Stripe live key prefix: ${liveKey ? liveKey.substring(0, 12) : 'MISSING'}`,
+    )
+
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
       return new Response(JSON.stringify({ error: 'Missing Authorization header' }), {
