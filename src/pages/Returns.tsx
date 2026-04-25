@@ -1,7 +1,14 @@
 import FadeIn from "@/components/FadeIn";
+import Seo from "@/components/Seo";
 
 const Returns = () => (
   <main className="py-12 md:py-24">
+    <Seo
+      title="Returns & Refunds | Sable & Saffron"
+      description="Easy 30-day returns on all Sable & Saffron scarves. Unworn items can be returned for a full refund or replacement. UK returns address included."
+      path="/returns"
+      ogType="website"
+    />
     <div className="container mx-auto px-6 max-w-2xl text-center">
       <FadeIn className="space-y-8">
         <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground leading-tight">

@@ -5,6 +5,7 @@ import { getProductById, getWeightLabel, getProductDescription, getProductWashIn
 import { useCart } from "@/context/CartContext";
 import { useFavourites } from "@/context/FavouritesContext";
 import FadeIn from "@/components/FadeIn";
+import Seo, { SITE_URL } from "@/components/Seo";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 
 const ProductDetail = () => {
@@ -36,9 +37,49 @@ const ProductDetail = () => {
 
   const fav = isFavourite(product.id);
   const images = getProductImages(product);
+  const description = getProductDescription(product.weight, product.colourRef);
+  const weightWord = product.weight === "winter" ? "winter" : "lightweight";
+  const productUrl = `${SITE_URL}/product/${product.id}`;
+  const ogImage = `${SITE_URL}${product.image}`;
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description,
+    image: images.map((src) => `${SITE_URL}${src}`),
+    sku: product.id,
+    brand: { "@type": "Brand", name: "Sable & Saffron" },
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "GBP",
+      price: product.price.toFixed(2),
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Shop the Collection", item: `${SITE_URL}/shop` },
+      { "@type": "ListItem", position: 3, name: product.name, item: productUrl },
+    ],
+  };
 
   return (
     <main className="py-8 md:py-16">
+      <Seo
+        title={`${product.name} | Sable & Saffron`}
+        description={description}
+        path={`/product/${product.id}`}
+        ogImage={ogImage}
+        ogType="product"
+        jsonLd={[productSchema, breadcrumbSchema]}
+      />
       <div className="container mx-auto px-6">
         <Link to="/shop" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft size={14} /> Back to collection
@@ -54,7 +95,10 @@ const ProductDetail = () => {
                       <div className="overflow-hidden rounded-xl bg-muted aspect-[4/5]">
                         <img
                           src={src}
-                          alt={`${product.name} - view ${i + 1}`}
+                          alt={`${product.name} — ${weightWord} scarf in ${product.colourRef} | Sable & Saffron${images.length > 1 ? ` (view ${i + 1})` : ""}`}
+                          loading={i === 0 ? "eager" : "lazy"}
+                          decoding="async"
+                          fetchPriority={i === 0 ? "high" : "auto"}
                           className="w-full h-full object-cover"
                         />
                       </div>

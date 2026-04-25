@@ -5,6 +5,7 @@ import giftImage from "@/assets/gift-section.jpg";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
+import Seo, { SITE_URL } from "@/components/Seo";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
@@ -61,11 +62,38 @@ const Index = () => {
 
   const featuredProducts = products.slice(0, 3);
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Sable & Saffron",
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon.png`,
+    description:
+      "Handpicked scarves in soft, feminine colour. Lightweight and winter styles for women who dress in neutrals.",
+  };
+
   return (
     <main>
+      <Seo
+        title="Sable & Saffron | Handpicked Scarves in Soft Colour | UK"
+        description="Shop handpicked scarves in soft, feminine colour. Lightweight and winter styles that pair beautifully with neutral coats and jumpers. Free UK delivery available."
+        path="/"
+        ogImage={`${SITE_URL}${heroImage}`}
+        ogType="website"
+        jsonLd={organizationSchema}
+      />
       {/* Hero */}
       <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
-        <img src={heroImage} alt="Woman wearing a Sable & Saffron scarf in autumn" width={1920} height={1080} className="w-full h-full object-cover" />
+        <img
+          src={heroImage}
+          alt="Woman wearing a Sable & Saffron handpicked scarf in soft autumn colour"
+          width={1920}
+          height={1080}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          className="w-full h-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/40 to-transparent" />
         <div className="absolute inset-0 flex items-center">
           <div className="container mx-auto px-6">
