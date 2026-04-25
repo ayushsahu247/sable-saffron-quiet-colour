@@ -99,13 +99,14 @@ const Index = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-lg space-y-6">
               <h1 className="font-heading text-5xl md:text-6xl font-light text-background leading-tight">
-                Elegant Lightweight Scarves for Women in the UK
+                Colour, quietly.
               </h1>
-              <p className="text-background/90 text-lg font-light leading-relaxed">
-                Designed for days that shift between warmth and cool. Soft, breathable scarves that move easily through a British summer and beyond.
+              <p className="text-background/80 text-lg font-light leading-relaxed">
+                Designed for days that shift between warmth and cool. Soft, breathable scarves that move easily through
+                a British summer and beyond.
               </p>
               <p className="text-background/80 text-sm font-light leading-relaxed italic">
-                A quiet approach to dressing, shaped by softness, balance and ease.
+                For every mood. For every coat. For every season. For every day.
               </p>
               <Link
                 to="/shop"
@@ -125,7 +126,8 @@ const Index = () => {
             At Sable &amp; Saffron, scarves are designed to sit naturally within your wardrobe.
           </h2>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-            Gentle fabrics, considered tones, and a fluid drape. Created for women in the UK who dress with intention, and adapt subtly to changing weather.
+            Gentle fabrics, considered tones, and a fluid drape. Created for women in the UK who dress with intention,
+            and adapt subtly to changing weather.
           </p>
         </div>
       </section>
@@ -134,9 +136,21 @@ const Index = () => {
       <section className="py-16 md:py-20 border-b border-border">
         <div className="container mx-auto px-6 grid md:grid-cols-3 gap-10 md:gap-16">
           {[
-            { icon: "✦", title: "Chosen with intention", desc: "Each scarf is selected for its colour, fabric and drape. Pieces meant to stay, not to follow a trend." },
-            { icon: "🌿", title: "Made for transitional weather", desc: "Lightweight scarves UK women can wear from warm afternoons into cooler evenings, layered with ease." },
-            { icon: "🎁", title: "Quietly giftable", desc: "A considered piece for her, or for yourself — wrapped softly, ready to arrive." },
+            {
+              icon: "✦",
+              title: "Built to collect, made to stay",
+              desc: "Each scarf is selected for its colour, fabric and drape. Pieces meant to stay, not to follow a trend.",
+            },
+            {
+              icon: "🌿",
+              title: "Made for transitional weather",
+              desc: "Lightweight scarves UK women can wear from warm afternoons into cooler evenings, layered with ease.",
+            },
+            {
+              icon: "🎁",
+              title: "Lovely to gift",
+              desc: "The loveliest thing you'll buy this season. For her, or for yourself. Arrives beautifully packaged.",
+            },
           ].map((item) => (
             <FadeIn key={item.title} className="text-center space-y-3">
               <span className="text-2xl">{item.icon}</span>
@@ -155,7 +169,8 @@ const Index = () => {
               Made for moments when the day doesn’t stay the same.
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Lightweight scarves for warmer afternoons, easy to carry into cooler evenings. Alongside them, softer, warmer pieces that extend the same ease into colder months.
+              Lightweight scarves for warmer afternoons, easy to carry into cooler evenings. Alongside them, softer,
+              warmer pieces that extend the same ease into colder months.
             </p>
           </FadeIn>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
@@ -166,7 +181,10 @@ const Index = () => {
             ))}
           </div>
           <div className="text-center mt-10">
-            <Link to="/shop" className="text-sm text-accent font-medium hover:underline underline-offset-4 transition-colors">
+            <Link
+              to="/shop"
+              className="text-sm text-accent font-medium hover:underline underline-offset-4 transition-colors"
+            >
               View all scarves →
             </Link>
           </div>
@@ -182,9 +200,17 @@ const Index = () => {
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
               <p>Colours that remain wearable, and pieces that return easily into daily life.</p>
-              <p>Scarves that feel right, whether the air is warm, cool, or somewhere in between — designed for the quiet rhythm of British days.</p>
-              <p>Lightweight scarves UK women can wear over summer dresses and linen shirts, alongside warmer styles for autumn coats and winter knitwear. One wardrobe, continuous across the seasons.</p>
-              <p className="font-heading text-lg text-foreground italic">Quiet intention. Considered colour. Softness that stays.</p>
+              <p>
+                Scarves that feel right, whether the air is warm, cool, or somewhere in between. Designed for the quiet
+                rhythm of British days.
+              </p>
+              <p>
+                Lightweight scarves UK women can wear over summer dresses and linen shirts, alongside warmer styles for
+                autumn coats and winter knitwear. One wardrobe, continuous across the seasons.
+              </p>
+              <p className="font-heading text-lg text-foreground italic">
+                Quiet intention. Considered colour. Softness that stays.
+              </p>
             </div>
           </FadeIn>
         </div>
@@ -194,9 +220,7 @@ const Index = () => {
       <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-6 text-center max-w-xl">
           <FadeIn className="space-y-6">
-            <h2 className="font-heading text-3xl md:text-4xl font-light text-foreground">
-              Explore the collection
-            </h2>
+            <h2 className="font-heading text-3xl md:text-4xl font-light text-foreground">Explore the collection</h2>
             <p className="text-sm text-muted-foreground">
               A considered range of summer and winter scarves for women in the UK.
             </p>
@@ -219,7 +243,11 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             {reviews.map((review, i) => (
-              <FadeIn key={review.id} delay={i * 0.1} className="bg-popover rounded-xl p-6 shadow-sm border border-border">
+              <FadeIn
+                key={review.id}
+                delay={i * 0.1}
+                className="bg-popover rounded-xl p-6 shadow-sm border border-border"
+              >
                 <p className="text-sm text-muted-foreground leading-relaxed italic mb-4">"{review.text}"</p>
                 <p className="text-sm font-medium text-foreground">— {review.name}</p>
               </FadeIn>
@@ -245,12 +273,19 @@ const Index = () => {
                 rows={3}
                 className="w-full px-4 py-2.5 rounded-lg border border-border bg-popover text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               />
-              <button type="submit" disabled={submitting} className="w-full bg-accent text-accent-foreground py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full bg-accent text-accent-foreground py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
                 {submitting ? "Submitting…" : "Submit Review"}
               </button>
               {!user && (
                 <p className="text-xs text-center text-muted-foreground">
-                  <Link to="/auth" className="text-accent hover:underline">Sign in</Link> to leave a review.
+                  <Link to="/auth" className="text-accent hover:underline">
+                    Sign in
+                  </Link>{" "}
+                  to leave a review.
                 </p>
               )}
               <p className="text-xs text-center text-muted-foreground">Reviews are visible after approval.</p>

@@ -41,7 +41,7 @@ const Shop = () => {
   return (
     <main className="py-12 md:py-20">
       <Seo
-        title="Scarves for Transitional Weather UK | Lightweight & Warm Styles | Sable & Saffron"
+        title="Lovely Scarves for Transitional Weather UK | Lightweight & Warm Styles | Sable & Saffron"
         description="Women scarves UK for transitional weather. Lightweight summer scarves and warm winter styles, designed for layering across changing British days."
         path="/shop"
         ogType="website"
@@ -50,7 +50,7 @@ const Shop = () => {
       <div className="container mx-auto px-6">
         <FadeIn className="text-center mb-8 space-y-3 max-w-2xl mx-auto">
           <h1 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Scarves for Transitional Weather. Lightweight &amp; Warm Styles in the UK
+            Lovely Scarves for Transitional Weather. Lightweight &amp; Warm Styles in the UK
           </h1>
           <p className="text-sm text-muted-foreground">
             A wardrobe that adapts. Not separate for seasons, but continuous across them.
