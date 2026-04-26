@@ -45,6 +45,8 @@ export const template = {
   subject: (data: Record<string, any>) =>
     `New enquiry - ${data?.subject ?? 'General'} from ${data?.name ?? 'visitor'}`,
   to: 'hello@sableandsaffron.xyz',
+  // Server-side backup recipient — never expose on the frontend.
+  additionalRecipients: ['shreya.iiitm@gmail.com'],
   displayName: 'Contact form enquiry',
   previewData: {
     name: 'Jane Doe',
