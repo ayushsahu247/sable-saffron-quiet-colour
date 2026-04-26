@@ -7,6 +7,10 @@ export interface TemplateEntry {
   to?: string
   displayName?: string
   previewData?: Record<string, any>
+  // Optional per-template sender override. If omitted, the function defaults
+  // to "Sable & Saffron <hello@sableandsaffron.xyz>".
+  fromAddress?: string
+  fromName?: string
 }
 
 import { template as orderConfirmation } from './order-confirmation.tsx'

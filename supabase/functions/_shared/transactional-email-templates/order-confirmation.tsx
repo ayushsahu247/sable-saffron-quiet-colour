@@ -119,10 +119,12 @@ const OrderConfirmationEmail = ({
 export const template = {
   component: OrderConfirmationEmail,
   subject: (data: Record<string, any>) =>
-    `Your ${SITE_NAME} order is confirmed${
-      data?.orderId ? ` — #${String(data.orderId).slice(0, 8).toUpperCase()}` : ''
+    `Your ${SITE_NAME} order is confirmed — #${
+      data?.orderId ? String(data.orderId).slice(0, 8).toUpperCase() : 'ORDER'
     }`,
   displayName: 'Order confirmation',
+  fromAddress: 'orders@sableandsaffron.xyz',
+  fromName: 'Sable & Saffron Orders',
   previewData: {
     customerName: 'Shreya',
     orderId: '8a4dc787-406c-437a-bec7-2dd50fec7e4d',
