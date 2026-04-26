@@ -5,6 +5,9 @@ export interface TemplateEntry {
   component: React.ComponentType<any>
   subject: string | ((data: Record<string, any>) => string)
   to?: string
+  // Optional list of additional recipients. When set, the email is enqueued
+  // once per address in addition to `to`. Kept server-side only.
+  additionalRecipients?: string[]
   displayName?: string
   previewData?: Record<string, any>
   // Optional per-template sender override. If omitted, the function defaults
