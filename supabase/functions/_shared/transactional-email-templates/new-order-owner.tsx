@@ -118,10 +118,13 @@ const NewOrderOwnerEmail = ({
 
 export const template = {
   component: NewOrderOwnerEmail,
-  // CUSTOMIZE: subject line for owner notifications
   subject: (data: Record<string, any>) =>
-    `New order${data?.orderId ? ` #${String(data.orderId).slice(0, 8).toUpperCase()}` : ''} — ${SITE_NAME}`,
+    `New order received — #${
+      data?.orderId ? String(data.orderId).slice(0, 8).toUpperCase() : 'ORDER'
+    }`,
   displayName: 'New order — owner notification',
+  fromAddress: 'orders@sableandsaffron.xyz',
+  fromName: 'Sable & Saffron Orders',
   previewData: {
     customerName: 'Shreya Patel',
     customerEmail: 'shreya@example.com',
