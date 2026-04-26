@@ -307,12 +307,24 @@ Deno.serve(async (req) => {
     status: 'pending',
   })
 
+  // Resolve sender — template can override the default hello@ address.
+  const fromName = template.fromName || SITE_NAME
+  const fromAddress = template.fromAddress || `hello@${FROM_DOMAIN}`
+  const fromHeader = `${fromName} <${fromAddress}>`
+
+  console.log('[send-transactional-email] attempting send', {
+    template: templateName,
+    recipient: effectiveRecipient,
+    from: fromHeader,
+    messageId,
+  })
+
   const { error: enqueueError } = await supabase.rpc('enqueue_email', {
     queue_name: 'transactional_emails',
     payload: {
       message_id: messageId,
       to: effectiveRecipient,
-      from: `${SITE_NAME} <hello@${FROM_DOMAIN}>`,
+      from: fromHeader,
       sender_domain: SENDER_DOMAIN,
       subject: resolvedSubject,
       html,
@@ -326,10 +338,11 @@ Deno.serve(async (req) => {
   })
 
   if (enqueueError) {
-    console.error('Failed to enqueue email', {
+    console.error('[send-transactional-email] FAILED to enqueue', {
+      template: templateName,
+      recipient: effectiveRecipient,
+      from: fromHeader,
       error: enqueueError,
-      templateName,
-      effectiveRecipient,
     })
 
     await supabase.from('email_send_log').insert({
@@ -346,7 +359,12 @@ Deno.serve(async (req) => {
     })
   }
 
-  console.log('Transactional email enqueued', { templateName, effectiveRecipient })
+  console.log('[send-transactional-email] SUCCESS enqueued', {
+    template: templateName,
+    recipient: effectiveRecipient,
+    from: fromHeader,
+    messageId,
+  })
 
   return new Response(
     JSON.stringify({ success: true, queued: true }),
