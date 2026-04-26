@@ -1,5 +1,6 @@
 import FadeIn from "@/components/FadeIn";
 import Seo from "@/components/Seo";
+import scarfLifestyle from "@/assets/products/scarf-13-lifestyle.jpg";
 
 const About = () => (
   <main className="py-12 md:py-24">
@@ -22,6 +23,22 @@ const About = () => (
           <p>One for Monday. One for the weekend. One for the coat you wear everywhere.</p>
           <p>Collect them. Layer them. Gift them. Wear them on a Tuesday like it's nothing.</p>
           <p className="font-heading text-xl text-foreground italic pt-4">Not fast fashion. Not a trend. Just colour, quietly.</p>
+        </div>
+      </FadeIn>
+    </div>
+
+    <div className="mt-16 md:mt-24 container mx-auto px-6 max-w-5xl">
+      <FadeIn>
+        <div className="overflow-hidden rounded-xl bg-muted aspect-[16/9]">
+          <img
+            src={scarfLifestyle}
+            alt="Woman wearing a soft blue floral scarf draped at the shoulders — Sable & Saffron"
+            width={1600}
+            height={900}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover"
+          />
         </div>
       </FadeIn>
     </div>
