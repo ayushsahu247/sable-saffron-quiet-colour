@@ -34,7 +34,7 @@ const CheckoutSuccess = () => {
       await clearCart();
       // Fire Google Ads conversion event
       if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-        (window as any).gtag("event", "conversion", { send_to: "AW-18121392042/purchase" });
+        (window as any).gtag("event", "conversion", { send_to: "AW-18169852942/purchase" });
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
